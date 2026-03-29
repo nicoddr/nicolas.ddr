@@ -1,0 +1,102 @@
+.content-page {
+    padding: 4rem 2rem;
+    min-height: calc(100vh - 80px - 200px);
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.page-header h1 {
+    font-size: 3.5rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+}
+
+.header-line {
+    height: 4px;
+    width: 80px;
+    background: var(--secondary);
+    border-radius: 2px;
+    margin: 0 auto;
+}
+
+.content-body {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-dark);
+}
+
+.intro-text {
+    text-align: center;
+    font-size: 1.25rem;
+    margin-bottom: 3rem;
+    color: var(--text-dark);
+    opacity: 0.9;
+}
+
+.timeline-placeholder {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.timeline-item {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid var(--primary);
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.timeline-item:hover {
+    transform: translateX(10px);
+    box-shadow: 0 10px 40px rgba(0, 122, 194, 0.1);
+}
+
+.timeline-date {
+    font-size: 0.9rem;
+    color: white;
+    background: var(--primary);
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.timeline-company {
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 1rem;
+}
+
+.timeline-item h3 {
+    color: var(--secondary);
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+}
+
+.watch-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 10px 20px;
+    background: var(--primary);
+    color: white;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.watch-btn:hover {
+    background: var(--secondary);
+    transform: translateY(-2px);
+    color: white;
+}

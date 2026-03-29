@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gérer les Photos - Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-page {
+            padding: 4rem 2rem;
+        }
+
+        .header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .header-title {
+            color: var(--primary);
+        }
+
+        /* Grid */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .photo-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .photo-info {
+            padding: 1rem;
+            flex: 1;
+        }
+
+        .photo-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .photo-details {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0 1rem 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-edit {
+            background: var(--secondary);
+        }
+
+        .btn-delete {
+            background: #e53e3e;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #64748b;
+        }
+
+        .admin-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .admin-form label {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .admin-form input,
+        .admin-form select,
+        .admin-form textarea {
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-family: inherit;
+        }
+
+        .filter-checkboxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .submit-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .success-msg {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #c6f6d5;
+            color: #2f855a;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            font-weight: 600;
+            z-index: 10000;
+            animation: slideInUp 0.3s ease-out forwards;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container container">
+            <div class="nav-logo"><a href="index.html">N. Didier</a></div>
+            <ul class="nav-links">
+                <li><a href="admin.html">Retour à l'ajout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="admin-page container fade-in">
+        <div class="header-flex">
+            <h1 class="header-title">Gestion des Photographies</h1>
+            <p id="photo-count" style="font-weight:600; color: #64748b;">Chargement...</p>
+        </div>
+
+        <div class="photo-grid" id="photo-grid">
+            <!-- Populated via JS -->
+        </div>
+    </main>
+
+    <!-- Modal Edition -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Modifier la photo</h2>
+
+            <form id="editForm" class="admin-form">
+                <input type="hidden" id="edit-id">
+
+                <div class="form-group">
+                    <label>Image URL *</label>
+                    <input type="url" id="edit-url" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group"><label>Titre</label><input type="text" id="edit-title"></div>
+                    <div class="form-group"><label>Date</label><input type="date" id="edit-date"></div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group"><label>Lieu</label><input type="text" id="edit-location"></div>
+                    <div class="form-group">
+                        <label>Format *</label>
+                        <select id="edit-aspectRatio" required>
+                            <option value="16:9">16:9</option>
+                            <option value="9:16">9:16</option>
+                            <option value="4:3">4:3</option>
+                            <option value="3:4">3:4</option>
+                            <option value="1:1">1:1</option>
+                            <option value="3:2">3:2</option>
+                            <option value="2:3">2:3</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Filtres (Tags)</label>
+                    <div class="filter-checkboxes">
+                        <label><input type="checkbox" value="Nature" class="edit-filter"> Nature</label>
+                        <label><input type="checkbox" value="Urbain" class="edit-filter"> Urbain</label>
+                        <label><input type="checkbox" value="Portrait" class="edit-filter"> Portrait</label>
+                        <label><input type="checkbox" value="Paysage" class="edit-filter"> Paysage</label>
+                        <label><input type="checkbox" value="Divers" class="edit-filter"> Divers</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="edit-description" rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Enregistrer les modifications</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="success-msg" id="successMsg">Mise à jour réussie !</div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="js/firebase-config.js" defer></script>
+    <script src="js/admin-manage.js" defer></script>
+</body>
+
+</html>

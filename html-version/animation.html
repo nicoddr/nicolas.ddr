@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation - Nicolas Didier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .content-page {
+            padding: 4rem 2rem;
+            min-height: calc(100vh - var(--nav-height) - 200px);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .header-line {
+            height: 4px;
+            width: 80px;
+            background: var(--secondary);
+            border-radius: 2px;
+            margin: 0 auto;
+        }
+
+        .content-body {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-dark);
+        }
+
+        .intro-text {
+            text-align: center;
+            font-size: 1.25rem;
+            margin-bottom: 3rem;
+            color: var(--text-dark);
+            opacity: 0.9;
+        }
+
+        .timeline-placeholder {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .timeline-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 40px rgba(0, 122, 194, 0.1);
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            color: white;
+            background: var(--primary);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .timeline-company {
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-item h3 {
+            color: var(--secondary);
+            margin: 0 0 0.5rem 0;
+            font-size: 1.5rem;
+        }
+
+        .watch-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .watch-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container container">
+            <div class="nav-logo"><a href="index.html">N. Didier</a></div>
+            <ul class="nav-links">
+                <li><a href="index.html" data-i18n="nav.home">Page d'accueil</a></li>
+                <li><a href="photos.html" data-i18n="nav.photos">Projets photos</a></li>
+                <li><a href="animation.html" data-i18n="nav.animation" class="active">Animation</a></li>
+                <li><a href="parcours.html" data-i18n="nav.parcours">Parcours</a></li>
+                <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+            </ul>
+            <button class="lang-btn" id="lang-btn" onclick="toggleLanguage()">FR</button>
+        </div>
+    </nav>
+
+    <main class="content-page container fade-in">
+        <div class="page-header">
+            <h1 data-i18n="nav.animation">Animation</h1>
+            <div class="header-line"></div>
+        </div>
+        <div class="content-body">
+            <p class="intro-text">Découvrez mes réalisations en communication, photographie événementielle et
+                facilitation.</p>
+            <div class="timeline-placeholder">
+                <div class="timeline-item">
+                    <div class="timeline-date">Novembre 2024 - Janvier 2025</div>
+                    <h3>70th Anniversary Coverage</h3>
+                    <div class="timeline-company">AFS Japan</div>
+                    <p>Photographie et contenus visuels pour l’événement du 70ème anniversaire d’AFS Japon. Travail
+                        présenté sur le site officiel d'AFS Japon et les réseaux sociaux.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">Janvier 2024 - Septembre 2024</div>
+                    <h3>Chargé de communication</h3>
+                    <div class="timeline-company">AFS France</div>
+                    <p>Direction de la « refonte » selon la charte graphique d'AFS International des stratégies de
+                        communication externe. Création de nouveaux supports médiatiques pour optimiser l'engagement sur
+                        les réseaux sociaux.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">2023 - 2024</div>
+                    <h3>Communication & Événementiel</h3>
+                    <div class="timeline-company">Université Bordeaux Montaigne (Association LEA)</div>
+                    <p>Gestion de l'ensemble des communications de l'association étudiante LEA. Accent mis sur
+                        l'amélioration de l'engagement étudiant et la promotion des événements.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">Projets Récents</div>
+                    <h3>Couverture : Asia Kakehashi Project</h3>
+                    <p>Capture des moments clés des événements d'échange culturel Asia Kakehashi. Contenu visuel de
+                        qualité pour la promotion sur les réseaux sociaux.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">Animation & Facilitation</div>
+                    <h3>Fresque du Climat & ODD</h3>
+                    <p>Animation d'ateliers sur l'interculturalité et les Objectifs de Développement Durable (ODD) en
+                        français et en anglais. Facilitation de la Fresque du Climat et de la Convention Citoyenne
+                        Étudiante de l'UPEC.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/lang.js"></script>
+</body>
+
+</html>

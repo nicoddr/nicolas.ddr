@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nicolas Didier - Portfolio</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Specific Home CSS */
+        .hero-section {
+            position: relative;
+            height: 70vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background-color: var(--background-dark);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: var(--text-light);
+            background: rgba(15, 23, 42, 0.6);
+            padding: 3rem 5rem;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+            pointer-events: none;
+            /* Let clicks pass through to section */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            animation: slideUpFade 1s ease-out forwards;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin: 0 0 1rem 0;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        .hero-content h2 {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin: 0;
+            color: var(--background-light);
+        }
+
+        @keyframes slideUpFade {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .scroller-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px 0;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        .scroller-track {
+            display: flex;
+            gap: 10px;
+            width: max-content;
+        }
+
+        .row-1 {
+            height: 50%;
+            animation: scrollLeft 40s linear infinite;
+        }
+
+        .row-2 {
+            height: 50%;
+            animation: scrollRight 40s linear infinite;
+            transform: translateX(-50%);
+        }
+
+        @keyframes scrollLeft {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        @keyframes scrollRight {
+            0% {
+                transform: translateX(-50%);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .scroller-item {
+            width: 400px;
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 8px;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .hero-section:hover .scroller-item {
+            filter: brightness(0.8);
+        }
+
+        .hero-section:hover .scroller-item:hover {
+            filter: brightness(1.2);
+            transform: scale(1.02);
+        }
+
+        .news-section {
+            padding: 5rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 3rem;
+        }
+
+        .news-box {
+            background: white;
+            border-radius: 12px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid var(--secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container container">
+            <div class="nav-logo">
+                <a href="index.html">N. Didier</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" data-i18n="nav.home">Page d'accueil</a></li>
+                <li><a href="photos.html" data-i18n="nav.photos">Projets photos</a></li>
+                <li><a href="animation.html" data-i18n="nav.animation">Animation</a></li>
+                <li><a href="parcours.html" data-i18n="nav.parcours">Parcours</a></li>
+                <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+            </ul>
+            <button class="lang-btn" id="lang-btn" onclick="toggleLanguage()">FR</button>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <section class="hero-section" onclick="window.location.href='photos.html'">
+            <div class="hero-content">
+                <h1 data-i18n="home.hero.title">Nicolas Didier</h1>
+                <h2 data-i18n="home.hero.subtitle">Photographe & Animateur</h2>
+            </div>
+
+            <div class="scroller-container">
+                <div class="scroller-track row-1" id="scroller-1">
+                    <div class="scroller-item"></div>
+                    <div class="scroller-item"></div>
+                    <div class="scroller-item"></div>
+                    <div class="scroller-item"></div>
+                    <div class="scroller-item"></div>
+                </div>
+                <div class="scroller-track row-2" id="scroller-2">
+                    <div class="scroller-item"></div>
+                    <div class="scroller-item"></div>
+                    <div class="scroller-item"></div>
+                    <div class="scroller-item"></div>
+                    <div class="scroller-item"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="news-section container fade-in">
+            <h2 class="section-title" data-i18n="home.news.title">Dernières actualités</h2>
+            <div class="news-box">
+                <p>Découvrez mes derniers projets, expositions en cours et actualités. (Exemple d'actualité, peut être
+                    mis à jour manuellement plus tard).</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3 data-i18n="footer.contact">Contact</h3>
+                <p>
+                    <a href="mailto:nicolas.didier2001@gmail.com" class="email-link">
+                        📧 <span data-i18n="footer.email">Me contacter</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="footer.social">Réseaux Sociaux</h3>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/nicolas-didier-france/" target="_blank"
+                        rel="noopener noreferrer">in</a>
+                    <a href="https://www.instagram.com/nicolas.ddr.photos/" target="_blank"
+                        rel="noopener noreferrer">📷</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Nicolas Didier.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="js/lang.js" defer></script>
+    <script src="js/firebase-config.js" defer></script>
+    <script src="js/home.js" defer></script>
+</body>
+
+</html>
