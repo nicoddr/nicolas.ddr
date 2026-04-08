@@ -5,115 +5,282 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Animation - Nicolas Didier</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Réalisations en communication, photographie événementielle et facilitation — Nicolas Didier.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .content-page {
-            padding: 4rem 2rem;
-            min-height: calc(100vh - var(--nav-height) - 200px);
-        }
-
-        .page-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .page-header h1 {
-            font-size: 3.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            letter-spacing: 1px;
-        }
-
-        .header-line {
-            height: 4px;
-            width: 80px;
-            background: var(--secondary);
-            border-radius: 2px;
+        /* === ANIMATION PAGE === */
+        .anim-content {
+            max-width: 850px;
             margin: 0 auto;
-        }
-
-        .content-body {
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--text-dark);
+            padding: 0 2rem 5rem;
         }
 
         .intro-text {
             text-align: center;
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             margin-bottom: 3rem;
-            color: var(--text-dark);
-            opacity: 0.9;
+            color: var(--text-muted);
+            line-height: 1.7;
         }
 
-        .timeline-placeholder {
+        /* Timeline */
+        .anim-timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .anim-timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary), rgba(var(--secondary-rgb), 0.1));
+        }
+
+        /* Animated draw line overlay */
+        .anim-timeline::after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            width: 2px;
+            height: 0;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            box-shadow: 0 0 8px rgba(var(--primary-rgb), 0.4);
+            transition: height 0.1s linear;
+            z-index: 1;
+        }
+
+        .anim-entry {
+            position: relative;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: entrySlideIn 0.6s var(--ease-out) forwards;
+        }
+
+        .anim-entry:nth-child(1) { animation-delay: 0.1s; }
+        .anim-entry:nth-child(2) { animation-delay: 0.2s; }
+        .anim-entry:nth-child(3) { animation-delay: 0.3s; }
+        .anim-entry:nth-child(4) { animation-delay: 0.4s; }
+        .anim-entry:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes entrySlideIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Timeline node */
+        .anim-entry::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 24px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid var(--bg-base);
+            box-shadow: 0 0 12px rgba(var(--primary-rgb), 0.5);
+            z-index: 2;
+        }
+
+        .anim-entry:first-child::before {
+            width: 14px;
+            height: 14px;
+            left: -34px;
+            background: var(--gradient-line);
+            box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.6);
+            animation: nodePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes nodePulse {
+            0%, 100% { box-shadow: 0 0 12px rgba(var(--primary-rgb), 0.5); }
+            50% { box-shadow: 0 0 24px rgba(var(--primary-rgb), 0.8); }
+        }
+
+        /* Card */
+        .anim-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 1.8rem 2rem;
+            backdrop-filter: blur(8px);
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Mouse spotlight */
+        .anim-card .card-spotlight {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(var(--primary-rgb), 0.08) 0%, transparent 70%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+
+        .anim-card:hover .card-spotlight {
+            opacity: 1;
+        }
+
+        .anim-card > *:not(.card-spotlight) {
+            position: relative;
+            z-index: 1;
+        }
+
+        .anim-card:hover {
+            border-color: var(--border-hover);
+            transform: translateX(6px);
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+        }
+
+        .anim-card .date-badge {
+            display: inline-block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--primary);
+            background: rgba(var(--primary-rgb), 0.1);
+            padding: 4px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(var(--primary-rgb), 0.2);
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        .anim-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .anim-card .org {
+            font-size: 0.92rem;
+            font-weight: 500;
+            color: var(--secondary);
+            margin-bottom: 0.6rem;
+        }
+
+        /* Tags row */
+        .tags-row {
             display: flex;
-            flex-direction: column;
-            gap: 2rem;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 1rem;
         }
 
-        .timeline-item {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            border-left: 4px solid var(--primary);
+        .anim-card p {
+            font-size: 0.92rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        /* Expandable details */
+        .expand-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s var(--ease-out), opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .expand-details.open {
+            max-height: 300px;
+            opacity: 1;
+        }
+
+        .expand-details ul {
+            padding: 0.8rem 0 0 0;
+            list-style: none;
+        }
+
+        .expand-details ul li {
+            position: relative;
+            padding-left: 1.2rem;
+            margin-bottom: 0.4rem;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        .expand-details ul li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        .expand-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 0.8rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: var(--font-family);
+            padding: 4px 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .expand-btn:hover {
+            opacity: 0.7;
+        }
+
+        .expand-btn .expand-icon {
+            display: inline-block;
             transition: transform 0.3s ease;
         }
 
-        .timeline-item:hover {
-            transform: translateX(10px);
-            box-shadow: 0 10px 40px rgba(0, 122, 194, 0.1);
+        .expand-btn.open .expand-icon {
+            transform: rotate(180deg);
         }
 
-        .timeline-date {
-            font-size: 0.9rem;
-            color: white;
-            background: var(--primary);
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .anim-timeline {
+                padding-left: 30px;
+            }
 
-        .timeline-company {
-            font-weight: 600;
-            color: #64748b;
-            margin-bottom: 1rem;
-        }
+            .anim-timeline::before {
+                left: 10px;
+            }
 
-        .timeline-item h3 {
-            color: var(--secondary);
-            margin: 0 0 0.5rem 0;
-            font-size: 1.5rem;
-        }
+            .anim-timeline::after {
+                left: 10px;
+            }
 
-        .watch-btn {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 10px 20px;
-            background: var(--primary);
-            color: white;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
+            .anim-entry::before {
+                left: -28px;
+            }
 
-        .watch-btn:hover {
-            background: var(--secondary);
-            transform: translateY(-2px);
-            color: white;
+            .anim-entry:first-child::before {
+                left: -29px;
+            }
+
+            .anim-card {
+                padding: 1.4rem 1.2rem;
+            }
+
+            .anim-card h3 {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container container">
             <div class="nav-logo"><a href="../index.html">N. Didier</a></div>
             <ul class="nav-links">
@@ -124,62 +291,249 @@
                 <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
             </ul>
             <button class="lang-btn" id="lang-btn" onclick="toggleLanguage()">FR</button>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
-    <main class="content-page container fade-in">
-        <div class="page-header">
-            <h1 data-i18n="nav.animation">Animation</h1>
-            <div class="header-line"></div>
+    <div class="mobile-nav-overlay" id="mobile-nav">
+        <div class="mobile-nav-links">
+            <a href="../index.html" data-i18n="nav.home">Page d'accueil</a>
+            <a href="photos.html" data-i18n="nav.photos">Projets photos</a>
+            <a href="animation.html" data-i18n="nav.animation" class="active">Animation</a>
+            <a href="parcours.html" data-i18n="nav.parcours">Parcours</a>
+            <a href="contact.html" data-i18n="nav.contact">Contact</a>
         </div>
-        <div class="content-body">
-            <p class="intro-text">Découvrez mes réalisations en communication, photographie événementielle et
-                facilitation.</p>
-            <div class="timeline-placeholder">
-                <div class="timeline-item">
-                    <div class="timeline-date">Novembre 2024 - Janvier 2025</div>
-                    <h3>70th Anniversary Coverage</h3>
-                    <div class="timeline-company">AFS Japan</div>
-                    <p>Photographie et contenus visuels pour l’événement du 70ème anniversaire d’AFS Japon. Travail
-                        présenté sur le site officiel d'AFS Japon et les réseaux sociaux.</p>
+    </div>
+
+    <main>
+        <!-- HERO -->
+        <section class="page-hero">
+            <h1 data-i18n="nav.animation">Animation</h1>
+            <p class="subtitle" data-i18n="anim.subtitle">Mes réalisations en communication, photographie événementielle et facilitation d'ateliers.</p>
+            <div class="hero-accent-line"></div>
+        </section>
+
+        <!-- CONTENT -->
+        <div class="anim-content">
+            <div class="anim-timeline" id="anim-timeline">
+                <div class="anim-entry">
+                    <div class="anim-card" data-spotlight>
+                        <div class="card-spotlight"></div>
+                        <span class="date-badge" data-i18n="anim.entry1.date">Novembre 2024 — Janvier 2025</span>
+                        <h3 data-i18n="anim.entry1.title">70th Anniversary Coverage</h3>
+                        <div class="org">AFS Japan</div>
+                        <div class="tags-row">
+                            <span class="tag-chip tag-photo">📸 Photographie</span>
+                            <span class="tag-chip tag-social">📱 Réseaux sociaux</span>
+                        </div>
+                        <p data-i18n="anim.entry1.desc">Photographie et contenus visuels pour l'événement du 70ème anniversaire d'AFS Japon.</p>
+                        <button class="expand-btn" onclick="toggleExpand(this)">
+                            <span data-i18n="anim.details">Détails</span> <span class="expand-icon">▾</span>
+                        </button>
+                        <div class="expand-details">
+                            <ul>
+                                <li data-i18n="anim.entry1.d1">Travail présenté sur le site officiel d'AFS Japon et les réseaux sociaux</li>
+                                <li data-i18n="anim.entry1.d2">Couverture photo et vidéo de l'événement</li>
+                                <li data-i18n="anim.entry1.d3">Post-production et édition des contenus visuels</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-date">Janvier 2024 - Septembre 2024</div>
-                    <h3>Chargé de communication</h3>
-                    <div class="timeline-company">AFS France</div>
-                    <p>Direction de la « refonte » selon la charte graphique d'AFS International des stratégies de
-                        communication externe. Création de nouveaux supports médiatiques pour optimiser l'engagement sur
-                        les réseaux sociaux.</p>
+                <div class="anim-entry">
+                    <div class="anim-card" data-spotlight>
+                        <div class="card-spotlight"></div>
+                        <span class="date-badge" data-i18n="anim.entry2.date">Janvier 2024 — Septembre 2024</span>
+                        <h3 data-i18n="anim.entry2.title">Chargé de communication</h3>
+                        <div class="org">AFS France</div>
+                        <div class="tags-row">
+                            <span class="tag-chip tag-design">🎨 Design</span>
+                            <span class="tag-chip tag-social">📱 Réseaux sociaux</span>
+                        </div>
+                        <p data-i18n="anim.entry2.desc">Direction de la « refonte » selon la charte graphique d'AFS International des stratégies de communication externe.</p>
+                        <button class="expand-btn" onclick="toggleExpand(this)">
+                            <span data-i18n="anim.details">Détails</span> <span class="expand-icon">▾</span>
+                        </button>
+                        <div class="expand-details">
+                            <ul>
+                                <li data-i18n="anim.entry2.d1">Création de nouveaux supports médiatiques pour optimiser l'engagement</li>
+                                <li data-i18n="anim.entry2.d2">Refonte de la stratégie de communication selon la charte AFS International</li>
+                                <li data-i18n="anim.entry2.d3">Gestion des campagnes sur les réseaux sociaux</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-date">2023 - 2024</div>
-                    <h3>Communication & Événementiel</h3>
-                    <div class="timeline-company">Université Bordeaux Montaigne (Association LEA)</div>
-                    <p>Gestion de l'ensemble des communications de l'association étudiante LEA. Accent mis sur
-                        l'amélioration de l'engagement étudiant et la promotion des événements.</p>
+                <div class="anim-entry">
+                    <div class="anim-card" data-spotlight>
+                        <div class="card-spotlight"></div>
+                        <span class="date-badge" data-i18n="anim.entry3.date">2023 — 2024</span>
+                        <h3 data-i18n="anim.entry3.title">Communication & Événementiel</h3>
+                        <div class="org" data-i18n="anim.entry3.org">Université Bordeaux Montaigne (Association LEA)</div>
+                        <div class="tags-row">
+                            <span class="tag-chip tag-event">🎉 Événementiel</span>
+                            <span class="tag-chip tag-social">📱 Réseaux sociaux</span>
+                        </div>
+                        <p data-i18n="anim.entry3.desc">Gestion de l'ensemble des communications de l'association étudiante LEA.</p>
+                        <button class="expand-btn" onclick="toggleExpand(this)">
+                            <span data-i18n="anim.details">Détails</span> <span class="expand-icon">▾</span>
+                        </button>
+                        <div class="expand-details">
+                            <ul>
+                                <li data-i18n="anim.entry3.d1">Amélioration de l'engagement étudiant et promotion des événements</li>
+                                <li data-i18n="anim.entry3.d2">Organisation d'événements culturels et associatifs</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-date">Projets Récents</div>
-                    <h3>Couverture : Asia Kakehashi Project</h3>
-                    <p>Capture des moments clés des événements d'échange culturel Asia Kakehashi. Contenu visuel de
-                        qualité pour la promotion sur les réseaux sociaux.</p>
+                <div class="anim-entry">
+                    <div class="anim-card" data-spotlight>
+                        <div class="card-spotlight"></div>
+                        <span class="date-badge" data-i18n="anim.entry4.date">Projets Récents</span>
+                        <h3 data-i18n="anim.entry4.title">Couverture : Asia Kakehashi Project</h3>
+                        <div class="org" data-i18n="anim.entry4.org">Échange culturel Asie-Japon</div>
+                        <div class="tags-row">
+                            <span class="tag-chip tag-photo">📸 Photographie</span>
+                            <span class="tag-chip tag-event">🎉 Événementiel</span>
+                        </div>
+                        <p data-i18n="anim.entry4.desc">Capture des moments clés des événements d'échange culturel Asia Kakehashi. Contenu visuel de qualité pour la promotion sur les réseaux sociaux.</p>
+                    </div>
                 </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-date">Animation & Facilitation</div>
-                    <h3>Fresque du Climat & ODD</h3>
-                    <p>Animation d'ateliers sur l'interculturalité et les Objectifs de Développement Durable (ODD) en
-                        français et en anglais. Facilitation de la Fresque du Climat et de la Convention Citoyenne
-                        Étudiante de l'UPEC.</p>
+                <div class="anim-entry">
+                    <div class="anim-card" data-spotlight>
+                        <div class="card-spotlight"></div>
+                        <span class="date-badge" data-i18n="anim.entry5.date">Animation & Facilitation</span>
+                        <h3 data-i18n="anim.entry5.title">Fresque du Climat & ODD</h3>
+                        <div class="org" data-i18n="anim.entry5.org">Ateliers interactifs</div>
+                        <div class="tags-row">
+                            <span class="tag-chip tag-workshop">🧩 Atelier</span>
+                            <span class="tag-chip tag-event">🎉 Facilitation</span>
+                        </div>
+                        <p data-i18n="anim.entry5.desc">Animation d'ateliers sur l'interculturalité et les Objectifs de Développement Durable (ODD) en français et en anglais.</p>
+                        <button class="expand-btn" onclick="toggleExpand(this)">
+                            <span data-i18n="anim.details">Détails</span> <span class="expand-icon">▾</span>
+                        </button>
+                        <div class="expand-details">
+                            <ul>
+                                <li data-i18n="anim.entry5.d1">Facilitation de la Fresque du Climat</li>
+                                <li data-i18n="anim.entry5.d2">Convention Citoyenne Étudiante de l'UPEC</li>
+                                <li data-i18n="anim.entry5.d3">Ateliers bilingues français-anglais</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3 data-i18n="footer.contact">Contact</h3>
+                <p>
+                    <a href="mailto:nicolas.didier2001@gmail.com" class="email-link">
+                        📧 <span data-i18n="footer.email">Me contacter</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="footer.social">Réseaux Sociaux</h3>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/nicolas-didier-france/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">in</a>
+                    <a href="https://www.instagram.com/nicolas.ddr.photos/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📷</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Nicolas Didier.</p>
+
+        </div>
+    </footer>
+
     <script src="js/lang.js"></script>
+    <script>
+        // Hamburger menu
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobile-nav');
+        if (hamburger && mobileNav) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                mobileNav.classList.toggle('active');
+                document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+            });
+            mobileNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+        }
+
+        // Navbar scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // === EXPAND TOGGLE ===
+        function toggleExpand(btn) {
+            const details = btn.nextElementSibling;
+            details.classList.toggle('open');
+            btn.classList.toggle('open');
+        }
+
+        // === MOUSE SPOTLIGHT ===
+        document.querySelectorAll('[data-spotlight]').forEach(card => {
+            const spotlight = card.querySelector('.card-spotlight');
+            if (!spotlight) return;
+
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                spotlight.style.left = (e.clientX - rect.left) + 'px';
+                spotlight.style.top = (e.clientY - rect.top) + 'px';
+            });
+        });
+
+        // === SCROLL-ANIMATED TIMELINE LINE ===
+        (function() {
+            const timeline = document.getElementById('anim-timeline');
+            if (!timeline) return;
+
+            function updateLine() {
+                const rect = timeline.getBoundingClientRect();
+                const viewportH = window.innerHeight;
+                const timelineTop = rect.top;
+                const timelineH = rect.height;
+
+                // How far into the timeline has the viewport scrolled
+                const scrolled = Math.max(0, viewportH * 0.5 - timelineTop);
+                const progress = Math.min(1, Math.max(0, scrolled / timelineH));
+
+                timeline.style.setProperty('--line-progress', (progress * 100) + '%');
+                // Update the ::after pseudo element height via inline style hack
+                const afterH = progress * timelineH;
+                timeline.style.setProperty('--timeline-draw-height', afterH + 'px');
+            }
+
+            // Use a CSS variable to drive the height
+            const style = document.createElement('style');
+            style.textContent = `
+                .anim-timeline::after {
+                    height: var(--timeline-draw-height, 0px) !important;
+                }
+            `;
+            document.head.appendChild(style);
+
+            window.addEventListener('scroll', updateLine, { passive: true });
+            updateLine();
+        })();
+    </script>
 </body>
 
 </html>

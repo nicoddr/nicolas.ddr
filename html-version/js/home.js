@@ -2,9 +2,8 @@
 
 function initHome() {
     const db = window.firebaseDB;
-    const scroller1 = document.getElementById('scroller-1');
-    const scroller2 = document.getElementById('scroller-2');
-    if (!db || !scroller1 || !scroller2) return setTimeout(initHome, 50);
+    const strip = document.getElementById('photo-strip');
+    if (!db || !strip) return setTimeout(initHome, 50);
 
     const photosRef = window.firebaseRef(db, 'photos');
 
@@ -13,35 +12,23 @@ function initHome() {
         if (data) {
             const allPhotos = Object.values(data);
 
-            // Clear current items
-            scroller1.innerHTML = '';
-            scroller2.innerHTML = '';
+            strip.innerHTML = '';
 
-            // If we have photos, split them in half for the two scrollers
-            const half = Math.ceil(allPhotos.length / 2);
-            const r1Photos = allPhotos.slice(0, half);
-            const r2Photos = allPhotos.slice(half);
-
-            // Add photos. If very few, duplicate to make the scroller effect look good
-            const fillScroller = (container, photosList) => {
-                let itemsToAdd = [...photosList];
-                // Duplicate if we have less than 5 to make the track long enough to scroll infinite
-                while (itemsToAdd.length < 5 && itemsToAdd.length > 0) {
-                    itemsToAdd = [...itemsToAdd, ...photosList];
-                }
-
-                itemsToAdd.forEach(photo => {
-                    const item = document.createElement('div');
-                    item.className = 'scroller-item';
-                    item.style.backgroundImage = `url(${photo.url})`;
-                    container.appendChild(item);
-                });
-            };
-
-            if (allPhotos.length > 0) {
-                fillScroller(scroller1, r1Photos.length > 0 ? r1Photos : allPhotos);
-                fillScroller(scroller2, r2Photos.length > 0 ? r2Photos : allPhotos);
+            // We need enough items to fill the strip and loop seamlessly
+            let items = [...allPhotos];
+            while (items.length < 12 && items.length > 0) {
+                items = [...items, ...allPhotos];
             }
+
+            // Duplicate for infinite scroll effect
+            const doubled = [...items, ...items];
+
+            doubled.forEach(photo => {
+                const item = document.createElement('div');
+                item.className = 'strip-item';
+                item.style.backgroundImage = `url(${photo.url})`;
+                strip.appendChild(item);
+            });
         }
     });
 }

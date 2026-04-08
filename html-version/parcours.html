@@ -5,97 +5,579 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parcours - Nicolas Didier</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Découvrez le parcours professionnel et académique de Nicolas Didier — photographe, animateur et spécialiste des relations internationales.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .content-page {
-            padding: 4rem 2rem;
-            min-height: calc(100vh - var(--nav-height) - 200px);
-        }
-
-        .page-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .page-header h1 {
-            font-size: 3.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            letter-spacing: 1px;
-        }
-
-        .header-line {
-            height: 4px;
-            width: 80px;
-            background: var(--secondary);
-            border-radius: 2px;
-            margin: 0 auto;
-        }
-
-        .content-body {
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--text-dark);
-        }
-
-        .intro-text {
-            text-align: center;
-            font-size: 1.25rem;
+        /* === SECTION TABS === */
+        .section-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0 2rem;
             margin-bottom: 3rem;
-            color: var(--text-dark);
-            opacity: 0.9;
+            flex-wrap: wrap;
         }
 
-        .timeline-placeholder {
+        .tab-btn {
+            padding: 10px 24px;
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-surface);
+            color: var(--text-muted);
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: var(--font-family);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            border-color: rgba(var(--primary-rgb), 0.3);
+            color: var(--text-body);
+            background: rgba(var(--primary-rgb), 0.08);
+        }
+
+        .tab-btn.active {
+            background: var(--gradient-glow);
+            border-color: rgba(var(--primary-rgb), 0.4);
+            color: #fff;
+            box-shadow: var(--shadow-glow-strong);
+        }
+
+        /* === TAB CONTENT === */
+        .tab-content {
+            display: none;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: contentFadeIn 0.5s var(--ease-out);
+        }
+
+        @keyframes contentFadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === WORLD MAP === */
+        .world-map-section {
+            max-width: 900px;
+            margin: 0 auto 2rem;
+            padding: 0 2rem;
+            animation: fadeInUp 0.8s var(--ease-out) 0.2s both;
+        }
+
+        .world-map-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .world-map-card h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+
+        .map-svg-container {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .map-svg-container svg {
+            width: 100%;
+            height: auto;
+        }
+
+        .map-country {
+            fill: rgba(255, 255, 255, 0.04);
+            stroke: rgba(255, 255, 255, 0.08);
+            stroke-width: 0.5;
+            transition: fill 0.4s ease, stroke 0.4s ease;
+        }
+
+        .map-country.highlighted {
+            fill: rgba(var(--primary-rgb), 0.15);
+            stroke: var(--primary);
+            stroke-width: 1;
+        }
+
+        .map-pin {
+            cursor: pointer;
+            transition: transform 0.3s var(--ease-spring);
+        }
+
+        .map-pin:hover {
+            transform: scale(1.3);
+        }
+
+        .map-pin circle {
+            fill: var(--primary);
+            filter: drop-shadow(0 0 6px rgba(var(--primary-rgb), 0.6));
+        }
+
+        .map-pin text {
+            font-family: var(--font-family);
+            font-size: 5px;
+            fill: var(--text-body);
+            font-weight: 600;
+        }
+
+        .map-route {
+            stroke: rgba(var(--primary-rgb), 0.25);
+            stroke-width: 0.8;
+            fill: none;
+            stroke-dasharray: 4, 3;
+            animation: dashMove 30s linear infinite;
+        }
+
+        @keyframes dashMove {
+            to { stroke-dashoffset: -100; }
+        }
+
+        .map-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .map-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .legend-dot.current {
+            background: #34d399;
+            box-shadow: 0 0 6px rgba(52, 211, 153, 0.5);
+        }
+
+        /* === PROGRESS INDICATOR === */
+        .progress-indicator {
+            position: fixed;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 8px;
+            align-items: flex-end;
         }
 
-        .timeline-item {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            border-left: 4px solid var(--primary);
-            transition: transform 0.3s ease;
+        .progress-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
-        .timeline-item:hover {
-            transform: translateX(10px);
-            box-shadow: 0 10px 40px rgba(0, 122, 194, 0.1);
-        }
-
-        .timeline-date {
-            font-size: 0.9rem;
-            color: white;
+        .progress-dot.active {
             background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 8px rgba(var(--primary-rgb), 0.5);
+        }
+
+        .progress-dot .dot-label {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            background: rgba(10, 15, 26, 0.9);
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .progress-dot:hover .dot-label {
+            opacity: 1;
+        }
+
+        /* === TIMELINE === */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary), rgba(var(--secondary-rgb), 0.1));
+        }
+
+        .timeline-entry {
+            position: relative;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: entrySlideIn 0.6s var(--ease-out) forwards;
+        }
+
+        .timeline-entry:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-entry:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-entry:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-entry:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-entry:nth-child(5) { animation-delay: 0.5s; }
+        .timeline-entry:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes entrySlideIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Timeline node */
+        .timeline-entry::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 24px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid var(--bg-base);
+            box-shadow: 0 0 12px rgba(var(--primary-rgb), 0.5);
+            z-index: 2;
+        }
+
+        .timeline-entry:first-child::before {
+            width: 14px;
+            height: 14px;
+            left: -34px;
+            background: var(--gradient-line);
+            box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.6);
+            animation: nodePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes nodePulse {
+            0%, 100% { box-shadow: 0 0 12px rgba(var(--primary-rgb), 0.5); }
+            50% { box-shadow: 0 0 24px rgba(var(--primary-rgb), 0.8); }
+        }
+
+        /* Card */
+        .tl-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 1.8rem 2rem;
+            backdrop-filter: blur(8px);
+            transition: all 0.35s ease;
+        }
+
+        .tl-card:hover {
+            border-color: var(--border-hover);
+            transform: translateX(6px);
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+        }
+
+        .tl-card .date-badge {
             display: inline-block;
-            padding: 4px 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--primary);
+            background: rgba(var(--primary-rgb), 0.1);
+            padding: 4px 14px;
             border-radius: 20px;
-            margin-bottom: 1rem;
-            font-weight: 600;
+            border: 1px solid rgba(var(--primary-rgb), 0.2);
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.5px;
         }
 
-        .timeline-company {
-            font-weight: 600;
-            color: #64748b;
-            margin-bottom: 1rem;
+        .tl-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
         }
 
-        .timeline-item h3 {
+        .tl-card .org {
+            font-size: 0.95rem;
+            font-weight: 500;
             color: var(--secondary);
-            margin: 0 0 0.5rem 0;
-            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .tl-card .location {
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tl-card .details {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tl-card .details li {
+            position: relative;
+            padding-left: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        .tl-card .details li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        .tl-card p.desc {
+            font-size: 0.92rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        /* === SKILLS & LANGUAGES GRIDS === */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 1.8rem;
+            transition: all 0.35s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: entrySlideIn 0.5s var(--ease-out) forwards;
+        }
+
+        .info-card:nth-child(1) { animation-delay: 0.1s; }
+        .info-card:nth-child(2) { animation-delay: 0.2s; }
+        .info-card:nth-child(3) { animation-delay: 0.3s; }
+        .info-card:nth-child(4) { animation-delay: 0.4s; }
+        .info-card:nth-child(5) { animation-delay: 0.5s; }
+        .info-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .info-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+        }
+
+        .info-card .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .info-card .card-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+        }
+
+        /* Skill bar with shimmer */
+        .skill-bar-track {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 0.8rem;
+        }
+
+        .skill-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            background: var(--gradient-line);
+            width: 0;
+            transition: width 1.2s var(--ease-out);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Shimmer wave on skill bars */
+        .skill-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmerWave 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmerWave {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+
+        /* Skill percentage label */
+        .skill-percent {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-top: 0.4rem;
+            text-align: right;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.5s ease 1s;
+        }
+
+        .skill-percent.visible {
+            opacity: 1;
+        }
+
+        /* Language level */
+        .lang-level {
+            display: flex;
+            gap: 4px;
+            margin-top: 0.6rem;
+        }
+
+        .lang-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .lang-dot.filled {
+            background: var(--gradient-line);
+            box-shadow: 0 0 6px rgba(var(--primary-rgb), 0.4);
+        }
+
+        .info-card:hover .lang-dot.filled {
+            transform: scale(1.2);
+        }
+
+        .lang-label {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* === INTERESTS === */
+        .interests-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            justify-content: center;
+        }
+
+        .interest-chip {
+            padding: 10px 22px;
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-surface);
+            color: var(--text-muted);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: entrySlideIn 0.4s var(--ease-out) forwards;
+        }
+
+        .interest-chip:nth-child(1) { animation-delay: 0.1s; }
+        .interest-chip:nth-child(2) { animation-delay: 0.2s; }
+        .interest-chip:nth-child(3) { animation-delay: 0.3s; }
+        .interest-chip:nth-child(4) { animation-delay: 0.4s; }
+
+        .interest-chip:hover {
+            border-color: rgba(var(--secondary-rgb), 0.3);
+            background: rgba(var(--secondary-rgb), 0.08);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .timeline {
+                padding-left: 30px;
+            }
+
+            .timeline::before {
+                left: 10px;
+            }
+
+            .timeline-entry::before {
+                left: -28px;
+            }
+
+            .timeline-entry:first-child::before {
+                left: -29px;
+            }
+
+            .tl-card {
+                padding: 1.4rem 1.2rem;
+            }
+
+            .tl-card h3 {
+                font-size: 1.1rem;
+            }
+
+            .section-tabs {
+                gap: 0.4rem;
+            }
+
+            .tab-btn {
+                padding: 8px 16px;
+                font-size: 0.82rem;
+            }
+
+            .progress-indicator {
+                display: none;
+            }
+
+            .world-map-section {
+                display: none;
+            }
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container container">
             <div class="nav-logo"><a href="../index.html">N. Didier</a></div>
             <ul class="nav-links">
@@ -106,68 +588,707 @@
                 <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
             </ul>
             <button class="lang-btn" id="lang-btn" onclick="toggleLanguage()">FR</button>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
-    <main class="content-page container fade-in">
-        <div class="page-header">
-            <h1 data-i18n="nav.parcours">Parcours</h1>
-            <div class="header-line"></div>
+    <div class="mobile-nav-overlay" id="mobile-nav">
+        <div class="mobile-nav-links">
+            <a href="../index.html" data-i18n="nav.home">Page d'accueil</a>
+            <a href="photos.html" data-i18n="nav.photos">Projets photos</a>
+            <a href="animation.html" data-i18n="nav.animation">Animation</a>
+            <a href="parcours.html" data-i18n="nav.parcours" class="active">Parcours</a>
+            <a href="contact.html" data-i18n="nav.contact">Contact</a>
         </div>
-        <div class="content-body">
-            <p class="intro-text">Découvrez mon parcours académique et professionnel, qui m'a mené à forger mon
-                expertise actuelle.</p>
-            <div class="timeline-placeholder">
-                <div class="timeline-item">
-                    <div class="timeline-date">Janvier 2026 - Présent</div>
-                    <h3>Assistant pour la coopération éducative et linguistique</h3>
-                    <div class="timeline-company">Institut français de Lituanie (Vilnius)</div>
-                    <p>Participation à l’animation d’ateliers éducatifs, culturels et citoyens. Conception et mise en
-                        œuvre d’activités ludiques autour de la culture française.</p>
+    </div>
+
+    <!-- PROGRESS INDICATOR -->
+    <div class="progress-indicator" id="progress-indicator">
+        <div class="progress-dot active" data-target="tab-experience" onclick="switchToTab('experience')">
+            <span class="dot-label">Expériences</span>
+        </div>
+        <div class="progress-dot" data-target="tab-education" onclick="switchToTab('education')">
+            <span class="dot-label">Formation</span>
+        </div>
+        <div class="progress-dot" data-target="tab-skills" onclick="switchToTab('skills')">
+            <span class="dot-label">Compétences</span>
+        </div>
+        <div class="progress-dot" data-target="tab-languages" onclick="switchToTab('languages')">
+            <span class="dot-label">Langues</span>
+        </div>
+    </div>
+
+    <main>
+        <!-- HERO -->
+        <section class="page-hero">
+            <h1 data-i18n="parcours.title">Mon Parcours</h1>
+            <p class="subtitle" data-i18n="parcours.subtitle">Passionné par les enjeux géopolitiques et les politiques publiques, je cherche à contribuer aux initiatives de projets français à l'international.</p>
+            <div class="hero-accent-line"></div>
+        </section>
+
+        <!-- WORLD MAP -->
+        <div class="world-map-section">
+            <div class="world-map-card">
+                <h3 data-i18n="parcours.map.title">🌏 Mon parcours international</h3>
+                <div class="map-d3-container" id="map-d3-container" style="position: relative; max-width: 860px; margin: 0 auto; aspect-ratio: 2/1;">
+                    <!-- D3 renders the SVG here -->
+                    <!-- Tooltip -->
+                    <div id="map-tooltip" style="position: absolute; display: none; background: rgba(10,15,26,0.92); backdrop-filter: blur(12px); border: 1px solid rgba(96,165,250,0.25); border-radius: 10px; padding: 10px 16px; pointer-events: none; z-index: 10; min-width: 150px; box-shadow: 0 8px 30px rgba(0,0,0,0.4);">
+                        <div id="tooltip-title" style="font-size: 0.92rem; font-weight: 700; color: #f1f5f9; margin-bottom: 3px;"></div>
+                        <div id="tooltip-desc" style="font-size: 0.78rem; color: #94a3b8;"></div>
+                    </div>
                 </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-date">Mai 2025 - Octobre 2025</div>
-                    <h3>Assistant de solidarité internationale</h3>
-                    <div class="timeline-company">La DCC (Paris)</div>
-                    <p>Gestion des candidatures France Volontaires pour des volontariats de réciprocité. Suivi
-                        administratif des dossiers des volontaires de réciprocité (Visa, titre de séjour, assurance).
-                    </p>
+                <div class="map-legend">
+                    <div class="map-legend-item">
+                        <span class="legend-dot"></span>
+                        <span data-i18n="parcours.map.france">France — Études & Travail</span>
+                    </div>
+                    <div class="map-legend-item">
+                        <span class="legend-dot" style="background: var(--secondary);"></span>
+                        <span data-i18n="parcours.map.japan">Japon — Échange & Stage</span>
+                    </div>
+                    <div class="map-legend-item">
+                        <span class="legend-dot current"></span>
+                        <span data-i18n="parcours.map.lithuania">Lituanie — Actuellement</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="section-tabs" id="section-tabs">
+            <button class="tab-btn active" data-tab="experience">💼 <span data-i18n="parcours.tab.exp">Expériences</span></button>
+            <button class="tab-btn" data-tab="education">🎓 <span data-i18n="parcours.tab.edu">Formation</span></button>
+            <button class="tab-btn" data-tab="skills">⚡ <span data-i18n="parcours.tab.skills">Compétences</span></button>
+            <button class="tab-btn" data-tab="languages">🌍 <span data-i18n="parcours.tab.lang">Langues</span></button>
+        </div>
+
+        <!-- TAB: EXPERIENCE -->
+        <div class="tab-content active" id="tab-experience">
+            <div class="section-heading">
+                <span class="heading-icon">💼</span> <span data-i18n="parcours.exp.heading">Expériences Professionnelles</span>
+            </div>
+            <div class="timeline">
+                <!-- Entry 1 -->
+                <div class="timeline-entry">
+                    <div class="tl-card">
+                        <span class="date-badge" data-i18n="parcours.exp1.date">Janvier 2026 — Présent</span>
+                        <h3 data-i18n="parcours.exp1.title">Volontaire pour la Coopération Éducative et Linguistique</h3>
+                        <div class="org" data-i18n="parcours.exp1.org">Institut français de Lituanie</div>
+                        <div class="location">📍 Vilnius, Lituanie</div>
+                        <ul class="details">
+                            <li data-i18n="parcours.exp1.d1">Participation à l'animation d'ateliers éducatifs, culturels et citoyens</li>
+                            <li data-i18n="parcours.exp1.d2">Création de supports visuels et rédaction de contenus attractifs pour les réseaux sociaux</li>
+                            <li data-i18n="parcours.exp1.d3">Animation d'ateliers de découverte du français et de la culture francophone</li>
+                            <li data-i18n="parcours.exp1.d4">Conception d'activités ludiques alliant technologie et innovations autour de la culture française</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-date">Novembre 2024 - Janvier 2025</div>
-                    <h3>Program assistant</h3>
-                    <div class="timeline-company">AFS Intercultural Programs (Tokyo, Japan)</div>
-                    <p>Assistant de programmes pour les séjours internationaux interculturels.</p>
+                <!-- Entry 2 -->
+                <div class="timeline-entry">
+                    <div class="tl-card">
+                        <span class="date-badge" data-i18n="parcours.exp2.date">Mai 2025 — Octobre 2025</span>
+                        <h3 data-i18n="parcours.exp2.title">Assistant Solidarité Internationale</h3>
+                        <div class="org" data-i18n="parcours.exp2.org">La DCC (ONG)</div>
+                        <div class="location">📍 Paris, France</div>
+                        <ul class="details">
+                            <li data-i18n="parcours.exp2.d1">Gestion des candidatures France Volontaires pour des volontariats de solidarité internationale en réciprocité</li>
+                            <li data-i18n="parcours.exp2.d2">Gestion de notes de frais</li>
+                            <li data-i18n="parcours.exp2.d3">Organisation d'orientations et ateliers en lien avec l'AFD</li>
+                            <li data-i18n="parcours.exp2.d4">Suivi administratif des dossiers des volontaires (Visa, titre de séjour, assurance…)</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-date">Juin 2024 - Septembre 2024</div>
-                    <h3>Assistant programmes</h3>
-                    <div class="timeline-company">AFS Vivre Sans Frontière (Paris)</div>
-                    <p>Administration des transports, logistique. Gestion de dossiers administratifs (visas,
-                        candidatures). Traduction anglais-français et gestion des réseaux sociaux.</p>
+                <!-- Entry 3 -->
+                <div class="timeline-entry">
+                    <div class="tl-card">
+                        <span class="date-badge" data-i18n="parcours.exp3.date">Janvier 2024 — Janvier 2025</span>
+                        <h3 data-i18n="parcours.exp3.title">Assistant Programmes Internationaux</h3>
+                        <div class="org">AFS Intercultural Programs</div>
+                        <div class="location">📍 Tokyo, Japon & Paris, France</div>
+                        <ul class="details">
+                            <li data-i18n="parcours.exp3.d1">Administration des transports (vols, trains), logistique</li>
+                            <li data-i18n="parcours.exp3.d2">Gestion de dossiers administratifs (visas, candidatures)</li>
+                            <li data-i18n="parcours.exp3.d3">Traduction anglais-français-japonais</li>
+                            <li data-i18n="parcours.exp3.d4">Gestion des réseaux sociaux (Meta, Instagram)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: EDUCATION -->
+        <div class="tab-content" id="tab-education">
+            <div class="section-heading">
+                <span class="heading-icon">🎓</span> <span data-i18n="parcours.edu.heading">Formation Académique</span>
+            </div>
+            <div class="timeline">
+                <div class="timeline-entry">
+                    <div class="tl-card">
+                        <span class="date-badge" data-i18n="parcours.edu1.date">Août 2023 — Novembre 2025</span>
+                        <h3 data-i18n="parcours.edu1.title">Master Études Européennes et Internationales</h3>
+                        <div class="org" data-i18n="parcours.edu1.org">Institut d'Études Politiques</div>
+                        <div class="location">📍 Fontainebleau, France</div>
+                        <p class="desc" data-i18n="parcours.edu1.desc">Formation avancée en relations internationales, politique européenne et coopération internationale. Master entièrement en anglais.</p>
+                    </div>
                 </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-date">Juillet 2023 - Octobre 2025</div>
-                    <h3>Master, Études internationales / globales</h3>
-                    <div class="timeline-company">Institut d'Etudes Politiques de Fontainebleau</div>
-                    <p>Formation avancée à la facilitation de groupes et à la coopération internationale.</p>
+                <div class="timeline-entry">
+                    <div class="tl-card">
+                        <span class="date-badge" data-i18n="parcours.edu2.date">Septembre 2020 — Juin 2023</span>
+                        <h3 data-i18n="parcours.edu2.title">Licence Langues Étrangères Appliquées</h3>
+                        <div class="org" data-i18n="parcours.edu2.org">Université Bordeaux Montaigne</div>
+                        <div class="location">📍 Bordeaux, France</div>
+                        <p class="desc" data-i18n="parcours.edu2.desc">Spécialisation Anglais-Japonais avec une composante forte en relations internationales et communication interculturelle.</p>
+                    </div>
                 </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-date">Septembre 2020 - Juin 2023</div>
-                    <h3>Licence de Langues Étrangères Appliquées</h3>
-                    <div class="timeline-company">Université Bordeaux Montaigne</div>
-                    <p>Anglais - Japonais - Relations Internationales.</p>
+                <div class="timeline-entry">
+                    <div class="tl-card">
+                        <span class="date-badge" data-i18n="parcours.edu3.date">Mars 2018 — Février 2019</span>
+                        <h3 data-i18n="parcours.edu3.title">Échange Lycéen — Programme AFS</h3>
+                        <div class="org">Suzaka Senior High School</div>
+                        <div class="location">📍 Nagano, Japon</div>
+                        <p class="desc" data-i18n="parcours.edu3.desc">Année d'échange culturel et linguistique au Japon. Immersion complète dans la culture japonaise et apprentissage intensif de la langue.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-entry">
+                    <div class="tl-card">
+                        <span class="date-badge" data-i18n="parcours.edu4.date">Juin 2017 — Juillet 2020</span>
+                        <h3 data-i18n="parcours.edu4.title">Baccalauréat STI2D</h3>
+                        <div class="org" data-i18n="parcours.edu4.org">Lycée Albert Claveille</div>
+                        <div class="location">📍 Périgueux, France</div>
+                        <p class="desc" data-i18n="parcours.edu4.desc">Sciences et Technologies de l'Industrie et du Développement Durable.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: SKILLS -->
+        <div class="tab-content" id="tab-skills">
+            <div class="section-heading">
+                <span class="heading-icon">⚡</span> <span data-i18n="parcours.skills.heading">Compétences Techniques</span>
+            </div>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="card-icon">📊</div>
+                    <h3>Microsoft Office 365</h3>
+                    <div class="card-subtitle" data-i18n="parcours.skill1.sub">Suite bureautique complète</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill" data-width="90"></div>
+                    </div>
+                    <div class="skill-percent">90%</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-icon">🎨</div>
+                    <h3>Adobe Suite</h3>
+                    <div class="card-subtitle">Photoshop, Lightroom, Premiere</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill" data-width="85"></div>
+                    </div>
+                    <div class="skill-percent">85%</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-icon">☁️</div>
+                    <h3>Google Suite</h3>
+                    <div class="card-subtitle">Docs, Sheets, Drive, Meet</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill" data-width="92"></div>
+                    </div>
+                    <div class="skill-percent">92%</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-icon">🌐</div>
+                    <h3>WordPress</h3>
+                    <div class="card-subtitle" data-i18n="parcours.skill4.sub">Création & gestion de sites web</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill" data-width="75"></div>
+                    </div>
+                    <div class="skill-percent">75%</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-icon">✏️</div>
+                    <h3>Canva</h3>
+                    <div class="card-subtitle" data-i18n="parcours.skill5.sub">Design graphique & réseaux sociaux</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill" data-width="95"></div>
+                    </div>
+                    <div class="skill-percent">95%</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-icon">🎬</div>
+                    <h3>CapCut</h3>
+                    <div class="card-subtitle" data-i18n="parcours.skill6.sub">Montage vidéo & édition</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill" data-width="80"></div>
+                    </div>
+                    <div class="skill-percent">80%</div>
+                </div>
+            </div>
+
+            <!-- Interests sub-section -->
+            <div class="section-heading" style="margin-top: 3rem;">
+                <span class="heading-icon">🎯</span> <span data-i18n="parcours.interests.heading">Centres d'Intérêt</span>
+            </div>
+            <div class="interests-row">
+                <span class="interest-chip">💻 <span data-i18n="parcours.int1">Informatique</span></span>
+                <span class="interest-chip">🏸 <span data-i18n="parcours.int2">Badminton</span></span>
+                <span class="interest-chip">📸 <span data-i18n="parcours.int3">Photographie</span></span>
+                <span class="interest-chip">🌏 <span data-i18n="parcours.int4">Géopolitique</span></span>
+            </div>
+        </div>
+
+        <!-- TAB: LANGUAGES -->
+        <div class="tab-content" id="tab-languages">
+            <div class="section-heading">
+                <span class="heading-icon">🌍</span> <span data-i18n="parcours.lang.heading">Compétences Linguistiques</span>
+            </div>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="card-icon">🇫🇷</div>
+                    <h3 data-i18n="parcours.lang1.name">Français</h3>
+                    <div class="card-subtitle" data-i18n="parcours.lang1.level">Langue maternelle</div>
+                    <div class="lang-level">
+                        <div class="lang-dot filled"></div>
+                        <div class="lang-dot filled"></div>
+                        <div class="lang-dot filled"></div>
+                        <div class="lang-dot filled"></div>
+                        <div class="lang-dot filled"></div>
+                    </div>
+                    <div class="lang-label" data-i18n="parcours.lang1.label">Natif</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-icon">🇬🇧</div>
+                    <h3 data-i18n="parcours.lang2.name">Anglais</h3>
+                    <div class="card-subtitle" data-i18n="parcours.lang2.level">Compétence professionnelle</div>
+                    <div class="lang-level">
+                        <div class="lang-dot filled"></div>
+                        <div class="lang-dot filled"></div>
+                        <div class="lang-dot filled"></div>
+                        <div class="lang-dot filled"></div>
+                        <div class="lang-dot"></div>
+                    </div>
+                    <div class="lang-label" data-i18n="parcours.lang2.label">C1 avancé — Master en anglais</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-icon">🇯🇵</div>
+                    <h3 data-i18n="parcours.lang3.name">Japonais</h3>
+                    <div class="card-subtitle" data-i18n="parcours.lang3.level">Compétence professionnelle</div>
+                    <div class="lang-level">
+                        <div class="lang-dot filled"></div>
+                        <div class="lang-dot filled"></div>
+                        <div class="lang-dot filled"></div>
+                        <div class="lang-dot filled"></div>
+                        <div class="lang-dot"></div>
+                    </div>
+                    <div class="lang-label">B2 — C1</div>
                 </div>
             </div>
         </div>
     </main>
 
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3 data-i18n="footer.contact">Contact</h3>
+                <p>
+                    <a href="mailto:nicolas.didier2001@gmail.com" class="email-link">
+                        📧 <span data-i18n="footer.email">Me contacter</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="footer.social">Réseaux Sociaux</h3>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/nicolas-didier-france/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">in</a>
+                    <a href="https://www.instagram.com/nicolas.ddr.photos/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📷</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Nicolas Didier.</p>
+
+        </div>
+    </footer>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
     <script src="js/lang.js"></script>
+    <script>
+        // === TAB SYSTEM ===
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const progressDots = document.querySelectorAll('.progress-dot');
+        const tabNames = ['experience', 'education', 'skills', 'languages'];
+
+        function switchToTab(target) {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            progressDots.forEach(d => d.classList.remove('active'));
+
+            document.querySelector(`[data-tab="${target}"]`).classList.add('active');
+            document.getElementById('tab-' + target).classList.add('active');
+            document.querySelector(`[data-target="tab-${target}"]`).classList.add('active');
+
+            if (target === 'skills') {
+                animateSkillBars();
+            }
+        }
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                switchToTab(btn.getAttribute('data-tab'));
+            });
+        });
+
+        // === SKILL BAR ANIMATION ===
+        function animateSkillBars() {
+            const fills = document.querySelectorAll('.skill-bar-fill');
+            const percents = document.querySelectorAll('.skill-percent');
+
+            fills.forEach(fill => {
+                fill.style.width = '0';
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        fill.style.width = fill.getAttribute('data-width') + '%';
+                    });
+                });
+            });
+
+            percents.forEach(p => {
+                p.classList.remove('visible');
+                setTimeout(() => p.classList.add('visible'), 100);
+            });
+        }
+
+        // Initial animation for visible tab
+        setTimeout(animateSkillBars, 500);
+
+        // === HAMBURGER MENU ===
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobile-nav');
+        if (hamburger && mobileNav) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                mobileNav.classList.toggle('active');
+                document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+            });
+            mobileNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+        }
+
+        // Navbar scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+    </script>
+
+    <!-- WORLD MAP (D3 + TopoJSON) -->
+    <script>
+    (function() {
+        const container = document.getElementById('map-d3-container');
+        if (!container || typeof d3 === 'undefined') return;
+
+        const tooltip = document.getElementById('map-tooltip');
+        const tooltipTitle = document.getElementById('tooltip-title');
+        const tooltipDesc = document.getElementById('tooltip-desc');
+
+        const W = 860, H = 430;
+
+        // Highlighted country ISO codes
+        const HIGHLIGHT_COUNTRIES = {
+            '250': { color: '#60a5fa', alpha: 0.25 },  // France
+            '440': { color: '#34d399', alpha: 0.25 },  // Lithuania
+            '392': { color: '#a78bfa', alpha: 0.25 },  // Japan
+        };
+
+        // Pin data
+        const pins = [
+            { name: 'France', lon: 2.35, lat: 48.86, color: '#60a5fa', emoji: '🇫🇷', desc: 'Études & Travail', descEn: 'Studies & Work' },
+            { name: 'Japon', lon: 139.69, lat: 35.68, color: '#a78bfa', emoji: '🇯🇵', desc: 'Échange & Stage', descEn: 'Exchange & Internship' },
+            { name: 'Lituanie', lon: 25.28, lat: 54.69, color: '#34d399', emoji: '🇱🇹', desc: 'Actuellement', descEn: 'Currently', current: true },
+        ];
+
+        // Create SVG
+        const svg = d3.select(container)
+            .insert('svg', ':first-child')
+            .attr('viewBox', `0 0 ${W} ${H}`)
+            .attr('preserveAspectRatio', 'xMidYMid meet')
+            .style('width', '100%')
+            .style('height', 'auto')
+            .style('display', 'block')
+            .style('border-radius', '12px');
+
+        // Defs for filters & gradients
+        const defs = svg.append('defs');
+
+        // Glow filter
+        const glowFilter = defs.append('filter').attr('id', 'glow').attr('x', '-50%').attr('y', '-50%').attr('width', '200%').attr('height', '200%');
+        glowFilter.append('feGaussianBlur').attr('stdDeviation', '4').attr('result', 'blur');
+        glowFilter.append('feMerge').selectAll('feMergeNode').data(['blur', 'SourceGraphic']).enter().append('feMergeNode').attr('in', d => d);
+
+        // Pin glow filter (stronger)
+        const pinGlow = defs.append('filter').attr('id', 'pinGlow').attr('x', '-100%').attr('y', '-100%').attr('width', '300%').attr('height', '300%');
+        pinGlow.append('feGaussianBlur').attr('stdDeviation', '6').attr('result', 'blur');
+        pinGlow.append('feMerge').selectAll('feMergeNode').data(['blur', 'SourceGraphic']).enter().append('feMergeNode').attr('in', d => d);
+
+        // Projection — Natural Earth
+        const projection = d3.geoNaturalEarth1()
+            .scale(155)
+            .translate([W / 2, H / 2 + 15]);
+
+        const path = d3.geoPath().projection(projection);
+
+        // Background
+        svg.append('rect').attr('width', W).attr('height', H).attr('fill', 'transparent');
+
+        // Graticule (latitude/longitude grid)
+        const graticule = d3.geoGraticule().step([30, 20]);
+        svg.append('path')
+            .datum(graticule())
+            .attr('d', path)
+            .attr('fill', 'none')
+            .attr('stroke', 'rgba(255,255,255,0.03)')
+            .attr('stroke-width', 0.4);
+
+        // Sphere outline
+        svg.append('path')
+            .datum({ type: 'Sphere' })
+            .attr('d', path)
+            .attr('fill', 'none')
+            .attr('stroke', 'rgba(255,255,255,0.06)')
+            .attr('stroke-width', 0.6);
+
+        // Country group
+        const countriesGroup = svg.append('g').attr('class', 'countries');
+        // Routes group
+        const routesGroup = svg.append('g').attr('class', 'routes');
+        // Pins group
+        const pinsGroup = svg.append('g').attr('class', 'pins');
+
+        // Load world data
+        d3.json('https://unpkg.com/world-atlas@2.0.2/countries-110m.json').then(world => {
+            const countries = topojson.feature(world, world.objects.countries);
+
+            // Draw countries
+            countriesGroup.selectAll('path')
+                .data(countries.features)
+                .enter()
+                .append('path')
+                .attr('d', path)
+                .attr('fill', d => {
+                    const hl = HIGHLIGHT_COUNTRIES[d.id];
+                    return hl ? hl.color : 'rgba(148,163,184,0.06)';
+                })
+                .attr('fill-opacity', d => {
+                    const hl = HIGHLIGHT_COUNTRIES[d.id];
+                    return hl ? hl.alpha : 1;
+                })
+                .attr('stroke', d => {
+                    const hl = HIGHLIGHT_COUNTRIES[d.id];
+                    return hl ? hl.color : 'rgba(148,163,184,0.12)';
+                })
+                .attr('stroke-width', d => HIGHLIGHT_COUNTRIES[d.id] ? 1.2 : 0.3)
+                .attr('stroke-opacity', d => HIGHLIGHT_COUNTRIES[d.id] ? 0.6 : 1)
+                .style('transition', 'fill-opacity 0.3s ease');
+
+            // Draw routes between pins
+            const routePairs = [
+                { from: pins[0], to: pins[1], color: '#60a5fa' },
+                { from: pins[0], to: pins[2], color: '#34d399' },
+                { from: pins[1], to: pins[2], color: '#a78bfa' },
+            ];
+
+            routePairs.forEach((route, i) => {
+                const [x1, y1] = projection([route.from.lon, route.from.lat]);
+                const [x2, y2] = projection([route.to.lon, route.to.lat]);
+                const midX = (x1 + x2) / 2;
+                const midY = Math.min(y1, y2) - 30 - Math.abs(x2 - x1) * 0.08;
+
+                const pathStr = `M${x1},${y1} Q${midX},${midY} ${x2},${y2}`;
+
+                // Route glow (subtle)
+                routesGroup.append('path')
+                    .attr('d', pathStr)
+                    .attr('fill', 'none')
+                    .attr('stroke', route.color)
+                    .attr('stroke-width', 3)
+                    .attr('stroke-opacity', 0.06)
+                    .attr('filter', 'url(#glow)');
+
+                // Dashed animated route
+                const routePath = routesGroup.append('path')
+                    .attr('d', pathStr)
+                    .attr('fill', 'none')
+                    .attr('stroke', route.color)
+                    .attr('stroke-width', 1.2)
+                    .attr('stroke-opacity', 0.4)
+                    .attr('stroke-dasharray', '6,4');
+
+                // Animate dash offset
+                const totalLen = routePath.node().getTotalLength();
+                routePath
+                    .attr('stroke-dashoffset', 0)
+                    .transition()
+                    .duration(20000)
+                    .ease(d3.easeLinear)
+                    .attr('stroke-dashoffset', -totalLen)
+                    .on('end', function repeat() {
+                        d3.select(this)
+                            .attr('stroke-dashoffset', 0)
+                            .transition()
+                            .duration(20000)
+                            .ease(d3.easeLinear)
+                            .attr('stroke-dashoffset', -totalLen)
+                            .on('end', repeat);
+                    });
+
+                // Traveling dot
+                const dot = routesGroup.append('circle')
+                    .attr('r', 3)
+                    .attr('fill', route.color)
+                    .attr('filter', 'url(#glow)')
+                    .attr('opacity', 0.7);
+
+                function animateDot() {
+                    const node = routePath.node();
+                    dot.transition()
+                        .duration(4000 + i * 800)
+                        .ease(d3.easeLinear)
+                        .attrTween('cx', () => t => node.getPointAtLength(t * totalLen).x)
+                        .attrTween('cy', () => t => node.getPointAtLength(t * totalLen).y)
+                        .on('end', animateDot);
+                }
+                // Set initial position
+                const startPt = routePath.node().getPointAtLength(0);
+                dot.attr('cx', startPt.x).attr('cy', startPt.y);
+                setTimeout(animateDot, i * 1200);
+            });
+
+            // Draw pins
+            pins.forEach(pin => {
+                const [cx, cy] = projection([pin.lon, pin.lat]);
+                const g = pinsGroup.append('g').attr('class', 'map-pin-group');
+
+                // Outer glow circle
+                g.append('circle')
+                    .attr('cx', cx).attr('cy', cy).attr('r', 18)
+                    .attr('fill', pin.color).attr('opacity', 0.08)
+                    .attr('filter', 'url(#pinGlow)');
+
+                // Pulse ring animation (current location)
+                if (pin.current) {
+                    const pulse1 = g.append('circle')
+                        .attr('cx', cx).attr('cy', cy).attr('r', 8)
+                        .attr('fill', 'none').attr('stroke', pin.color)
+                        .attr('stroke-width', 1.5).attr('opacity', 0);
+                    function animatePulse1() {
+                        pulse1.attr('r', 8).attr('opacity', 0.5)
+                            .transition().duration(2000).ease(d3.easeQuadOut)
+                            .attr('r', 24).attr('opacity', 0)
+                            .on('end', animatePulse1);
+                    }
+                    animatePulse1();
+
+                    const pulse2 = g.append('circle')
+                        .attr('cx', cx).attr('cy', cy).attr('r', 8)
+                        .attr('fill', 'none').attr('stroke', pin.color)
+                        .attr('stroke-width', 1).attr('opacity', 0);
+                    function animatePulse2() {
+                        pulse2.attr('r', 8).attr('opacity', 0.3)
+                            .transition().duration(2000).ease(d3.easeQuadOut).delay(600)
+                            .attr('r', 30).attr('opacity', 0)
+                            .on('end', animatePulse2);
+                    }
+                    animatePulse2();
+                }
+
+                // Main dot with white border
+                g.append('circle')
+                    .attr('cx', cx).attr('cy', cy).attr('r', 6)
+                    .attr('fill', pin.color)
+                    .attr('stroke', 'rgba(255,255,255,0.6)')
+                    .attr('stroke-width', 1.5)
+                    .attr('filter', 'url(#glow)')
+                    .style('cursor', 'pointer');
+
+                // Inner white gleam
+                g.append('circle')
+                    .attr('cx', cx - 1.5).attr('cy', cy - 1.5).attr('r', 2)
+                    .attr('fill', 'rgba(255,255,255,0.5)');
+
+                // Label background
+                const labelText = pin.name;
+                const labelPad = 6;
+                const fontSize = 11;
+                const textW = labelText.length * 6.5 + labelPad * 2;
+                const textH = 20;
+                const labelY = cy - 24;
+
+                g.append('rect')
+                    .attr('x', cx - textW / 2).attr('y', labelY - textH / 2)
+                    .attr('width', textW).attr('height', textH)
+                    .attr('rx', 5).attr('ry', 5)
+                    .attr('fill', 'rgba(10,15,26,0.7)')
+                    .attr('stroke', pin.color)
+                    .attr('stroke-width', 0.5)
+                    .attr('stroke-opacity', 0.3);
+
+                // Label text
+                g.append('text')
+                    .attr('x', cx).attr('y', labelY + 1)
+                    .attr('text-anchor', 'middle')
+                    .attr('dominant-baseline', 'middle')
+                    .attr('fill', '#e2e8f0')
+                    .attr('font-size', fontSize)
+                    .attr('font-weight', 600)
+                    .attr('font-family', 'Inter, system-ui, sans-serif')
+                    .text(labelText);
+
+                // Tooltip interaction
+                g.on('mouseenter', (event) => {
+                    const rect = container.getBoundingClientRect();
+                    tooltipTitle.textContent = pin.emoji + ' ' + pin.name;
+                    const isEn = typeof currentLang !== 'undefined' && currentLang === 'en';
+                    tooltipDesc.textContent = isEn ? pin.descEn : pin.desc;
+                    tooltip.style.display = 'block';
+
+                    const svgRect = svg.node().getBoundingClientRect();
+                    const scaleX = svgRect.width / W;
+                    const scaleY = svgRect.height / H;
+                    tooltip.style.left = Math.min(cx * scaleX + 18, rect.width - 170) + 'px';
+                    tooltip.style.top = (cy * scaleY - 20) + 'px';
+                })
+                .on('mouseleave', () => {
+                    tooltip.style.display = 'none';
+                });
+            });
+        }).catch(err => {
+            console.warn('World map data failed to load:', err);
+            container.innerHTML = '<div style="text-align:center;color:#64748b;padding:3rem;">🌍 Map loading…</div>';
+        });
+    })();
+    </script>
 </body>
 
 </html>
