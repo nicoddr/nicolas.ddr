@@ -214,11 +214,9 @@
 
         /* Scroll hint */
         .scroll-hint {
-            position: absolute;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
+            position: relative;
+            margin-top: 3.5rem;
+            z-index: 20;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -227,7 +225,7 @@
         }
 
         .scroll-hint span {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #fff;
             font-weight: 700;
             text-transform: uppercase;
@@ -429,7 +427,13 @@
         /* === RESPONSIVE === */
         @media (max-width: 768px) {
             .home-hero {
-                height: 80vh;
+                height: auto;
+                min-height: 100vh;
+                min-height: 100dvh;
+                display: flex;
+                align-items: flex-start;
+                padding-top: calc(var(--nav-height) + 2rem);
+                padding-bottom: 140px; /* Safety margin for photo strip */
             }
 
             .home-hero h1 {
@@ -448,6 +452,7 @@
             .hero-cta-group {
                 flex-direction: column;
                 align-items: center;
+                margin-bottom: 2rem;
             }
 
             .stats-inner {
@@ -456,7 +461,7 @@
             }
 
             .scroll-hint {
-                bottom: 80px;
+                margin-top: 1.5rem;
             }
         }
 
@@ -527,11 +532,10 @@
                         <span data-i18n="home.hero.cta2">Mon parcours</span> →
                     </a>
                 </div>
-            </div>
-
-            <div class="scroll-hint">
-                <span data-i18n="home.hero.scroll">Défiler</span>
-                <div class="scroll-arrow"></div>
+                <div class="scroll-hint">
+                    <span data-i18n="home.hero.scroll">Défiler</span>
+                    <div class="scroll-arrow"></div>
+                </div>
             </div>
 
             <div class="photo-strip-container">
@@ -618,6 +622,20 @@
 
         </div>
     </footer>
+
+    <!-- Lightbox moved to body level to fix fixed positioning -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-counter" id="lb-counter">1 / 10</span>
+        <span class="lightbox-close" id="lb-close">&times;</span>
+        <div class="lightbox-nav lightbox-prev" id="lb-prev">‹</div>
+        <div class="lightbox-nav lightbox-next" id="lb-next">›</div>
+        <img class="lightbox-content" id="lightbox-img">
+        <div class="lightbox-details" id="lightbox-details">
+            <h3 id="lb-title"></h3>
+            <p id="lb-desc"></p>
+            <p id="lb-meta"></p>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -733,23 +751,17 @@
             let phraseIndex = 0;
             let charIndex = 0;
             let deleting = false;
-            let cursor;
 
             function getPhrases() {
                 return (typeof currentLang !== 'undefined' && currentLang === 'en') ? phrases_en : phrases_fr;
             }
-
-            // Create cursor element
-            cursor = document.createElement('span');
-            cursor.className = 'typing-cursor';
-            target.parentNode.insertBefore(cursor, target.nextSibling);
 
             function type() {
                 const phrases = getPhrases();
                 const current = phrases[phraseIndex % phrases.length];
 
                 if (!deleting) {
-                    target.textContent = current.substring(0, charIndex + 1);
+                    target.innerHTML = current.substring(0, charIndex + 1) + '<span class="typing-cursor"></span>';
                     charIndex++;
                     if (charIndex >= current.length) {
                         setTimeout(() => { deleting = true; type(); }, 2500);
@@ -757,7 +769,7 @@
                     }
                     setTimeout(type, 60 + Math.random() * 40);
                 } else {
-                    target.textContent = current.substring(0, charIndex);
+                    target.innerHTML = current.substring(0, charIndex) + '<span class="typing-cursor"></span>';
                     charIndex--;
                     if (charIndex < 0) {
                         deleting = false;

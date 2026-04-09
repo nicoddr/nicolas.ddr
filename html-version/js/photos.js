@@ -23,7 +23,12 @@ function renderGrid() {
         const item = document.createElement('div');
         item.className = 'masonry-item';
         item.style.animationDelay = `${idx * 0.05}s`;
-        item.onclick = () => window.openLightbox(idx);
+        item.style.cursor = 'pointer'; // Ensure pointer cursor
+        
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.openLightbox(idx);
+        });
 
         const img = document.createElement('img');
         img.src = photo.url;
@@ -81,6 +86,11 @@ function setupFilters(locations) {
             grid.style.opacity = '0';
             grid.style.transform = 'translateY(10px)';
             grid.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+
+            const mapSection = document.querySelector('.world-map-section');
+            if (mapSection) {
+                mapSection.style.display = currentFilter === 'All' ? 'block' : 'none';
+            }
 
             setTimeout(() => {
                 renderGrid();

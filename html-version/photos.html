@@ -183,114 +183,6 @@
             100% { background-position: 200% 0; }
         }
 
-        /* --- LIGHTBOX MODAL --- */
-        .lightbox {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            left: 0;
-            top: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(6, 10, 20, 0.95);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-
-        .lightbox.active {
-            display: flex;
-            animation: fadeIn 0.3s var(--ease-out);
-        }
-
-        .lightbox-close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: var(--text-muted);
-            font-size: 36px;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 10000;
-            transition: color 0.3s ease, transform 0.3s ease;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-        }
-
-        .lightbox-close:hover {
-            color: var(--text-primary);
-            border-color: var(--border-hover);
-            transform: rotate(90deg);
-        }
-
-        /* Nav arrows */
-        .lightbox-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 10000;
-        }
-
-        .lightbox-nav:hover {
-            color: var(--text-primary);
-            border-color: var(--border-hover);
-            background: rgba(var(--primary-rgb), 0.1);
-        }
-
-        .lightbox-prev { left: 20px; }
-        .lightbox-next { right: 20px; }
-
-        /* Photo counter */
-        .lightbox-counter {
-            position: absolute;
-            top: 28px;
-            left: 30px;
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            font-weight: 600;
-            z-index: 10000;
-        }
-
-        .lightbox-content {
-            max-width: 85%;
-            max-height: 75vh;
-            object-fit: contain;
-            border-radius: 8px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-            transition: transform 0.3s var(--ease-out);
-        }
-
-        .lightbox-details {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .lightbox-details h3 {
-            margin-bottom: 5px;
-            color: var(--primary);
-            font-size: 1.1rem;
-        }
-
         .lightbox-details p {
             margin: 5px 0;
             font-size: 0.9rem;
@@ -352,19 +244,6 @@
             <div class="skeleton-item"><div class="skeleton-inner" style="height: 250px;"></div></div>
         </div>
 
-        <!-- Lightbox -->
-        <div id="lightbox" class="lightbox">
-            <span class="lightbox-counter" id="lb-counter">1 / 10</span>
-            <span class="lightbox-close" id="lb-close">&times;</span>
-            <div class="lightbox-nav lightbox-prev" id="lb-prev">‹</div>
-            <div class="lightbox-nav lightbox-next" id="lb-next">›</div>
-            <img class="lightbox-content" id="lightbox-img">
-            <div class="lightbox-details" id="lightbox-details">
-                <h3 id="lb-title"></h3>
-                <p id="lb-desc"></p>
-                <p id="lb-meta"></p>
-            </div>
-        </div>
     </main>
 
     <!-- FOOTER -->
@@ -391,6 +270,20 @@
 
         </div>
     </footer>
+
+    <!-- Lightbox moved to body level to fix fixed positioning -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-counter" id="lb-counter">1 / 10</span>
+        <span class="lightbox-close" id="lb-close">&times;</span>
+        <div class="lightbox-nav lightbox-prev" id="lb-prev">‹</div>
+        <div class="lightbox-nav lightbox-next" id="lb-next">›</div>
+        <img class="lightbox-content" id="lightbox-img">
+        <div class="lightbox-details" id="lightbox-details">
+            <h3 id="lb-title"></h3>
+            <p id="lb-desc"></p>
+            <p id="lb-meta"></p>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -510,6 +403,7 @@
             });
         });
     </script>
+
 </body>
 
 </html>
