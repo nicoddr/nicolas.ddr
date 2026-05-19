@@ -100,9 +100,7 @@ const translations = {
         "projets.w1.title": "Portfolio Personnel",
         "projets.w1.org": "Projet personnel",
         "projets.w1.desc": "Conception et développement de ce site portfolio avec un design premium dark theme, gestion de photos via Firebase et support bilingue FR/EN.",
-        "projets.w2.title": "Plateforme Indopacifique",
-        "projets.w2.org": "Projet académique",
-        "projets.w2.desc": "Développement d'un portail web éducatif sur la zone indopacifique.",
+
         "projets.github": "Voir sur GitHub",
         "projets.w3.title": "Apprentissage du Lituanien",
         "projets.w3.org": "Projet personnel",
@@ -365,9 +363,7 @@ const translations = {
         "projets.w1.title": "Personal Portfolio",
         "projets.w1.org": "Personal project",
         "projets.w1.desc": "Design and development of this portfolio website with premium dark theme, Firebase photo management and bilingual FR/EN support.",
-        "projets.w2.title": "Indopacific Platform",
-        "projets.w2.org": "Academic project",
-        "projets.w2.desc": "Development of an educational web portal on the Indo-Pacific region.",
+
         "projets.github": "View on GitHub",
         "projets.w3.title": "Lithuanian Learning App",
         "projets.w3.org": "Personal project",
