@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projets - Nicolas Didier</title>
+    <meta name="description" content="Découvrez les projets de Nicolas Didier — recherche, communication visuelle, développement web et animation d'ateliers.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* === PROJETS PAGE === */
+
+        /* Category filter tabs */
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .cat-tab {
+            padding: 10px 22px;
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-surface);
+            color: var(--text-muted);
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: var(--font-family);
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cat-tab:hover {
+            border-color: rgba(var(--primary-rgb), 0.3);
+            color: var(--text-body);
+            background: rgba(var(--primary-rgb), 0.06);
+        }
+
+        .cat-tab.active {
+            background: var(--gradient-glow);
+            border-color: rgba(var(--primary-rgb), 0.4);
+            color: #fff;
+            box-shadow: var(--shadow-glow-strong);
+        }
+
+        /* Category sections */
+        .cat-section {
+            display: none;
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 0 2rem 5rem;
+            animation: catFadeIn 0.5s var(--ease-out);
+        }
+
+        .cat-section.active {
+            display: block;
+        }
+
+        @keyframes catFadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Category header */
+        .cat-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .cat-header .cat-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cat-header .cat-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--gradient-line-fade);
+        }
+
+        .cat-header .cat-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 700px;
+        }
+
+        /* Project cards grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(8px);
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: cardSlideIn 0.5s var(--ease-out) forwards;
+        }
+
+        .project-card:nth-child(1) { animation-delay: 0.05s; }
+        .project-card:nth-child(2) { animation-delay: 0.1s; }
+        .project-card:nth-child(3) { animation-delay: 0.15s; }
+        .project-card:nth-child(4) { animation-delay: 0.2s; }
+        .project-card:nth-child(5) { animation-delay: 0.25s; }
+        .project-card:nth-child(6) { animation-delay: 0.3s; }
+
+        @keyframes cardSlideIn {
+            to { opacity: 1; }
+        }
+
+        /* Gradient border on hover */
+        .project-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 1px;
+            background: var(--gradient-brand);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+        }
+
+        /* Card spotlight */
+        .project-card .card-spotlight {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(var(--primary-rgb), 0.06) 0%, transparent 70%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+
+        .project-card:hover .card-spotlight {
+            opacity: 1;
+        }
+
+        .project-card > *:not(.card-spotlight):not(::before) {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Card inner elements */
+        .project-card .card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-card .date-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary);
+            background: rgba(var(--primary-rgb), 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(var(--primary-rgb), 0.2);
+            letter-spacing: 0.3px;
+        }
+
+        .project-card .card-icon {
+            font-size: 1.6rem;
+        }
+
+        .project-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-card .org {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--secondary);
+            margin-bottom: 0.6rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-card .tags-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 0.8rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-card p {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Expandable details */
+        .expand-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s var(--ease-out), opacity 0.3s ease;
+            opacity: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .expand-details.open {
+            max-height: 400px;
+            opacity: 1;
+        }
+
+        .expand-details ul {
+            padding: 0.8rem 0 0 0;
+            list-style: none;
+        }
+
+        .expand-details ul li {
+            position: relative;
+            padding-left: 1.2rem;
+            margin-bottom: 0.4rem;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        .expand-details ul li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        .expand-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 0.8rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: var(--font-family);
+            padding: 4px 0;
+            transition: opacity 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .expand-btn:hover { opacity: 0.7; }
+
+        .expand-btn .expand-icon {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .expand-btn.open .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Project count badge */
+        .cat-count {
+            font-size: 0.7rem;
+            background: rgba(var(--primary-rgb), 0.15);
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-tabs {
+                gap: 0.4rem;
+            }
+
+            .cat-tab {
+                padding: 8px 14px;
+                font-size: 0.82rem;
+            }
+
+            .project-card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container container">
+            <div class="nav-logo">
+                <a href="../index.html" class="logo-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="logo-icon">
+                        <defs>
+                            <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="var(--primary)" />
+                                <stop offset="50%" stop-color="var(--secondary)" />
+                                <stop offset="100%" stop-color="var(--accent)" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M 12 30 L 12 10 L 24 30 L 24 10" stroke="url(#logo-grad)" />
+                        <path d="M 24 10 C 33 10, 37 15, 37 20 C 37 25, 33 30, 24 30" stroke="url(#logo-grad)" />
+                    </svg>
+                    <span class="logo-text">N. Didier</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html" data-i18n="nav.home">Page d'accueil</a></li>
+                <li><a href="photos.html" data-i18n="nav.photos">Projets photos</a></li>
+                <li><a href="projets.html" data-i18n="nav.projets" class="active">Projets</a></li>
+                <li><a href="parcours.html" data-i18n="nav.parcours">Parcours</a></li>
+                <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+            </ul>
+            <button class="lang-btn" id="lang-btn" onclick="toggleLanguage()">FR</button>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="mobile-nav-overlay" id="mobile-nav">
+        <div class="mobile-nav-links">
+            <a href="../index.html" data-i18n="nav.home">Page d'accueil</a>
+            <a href="photos.html" data-i18n="nav.photos">Projets photos</a>
+            <a href="projets.html" data-i18n="nav.projets" class="active">Projets</a>
+            <a href="parcours.html" data-i18n="nav.parcours">Parcours</a>
+            <a href="contact.html" data-i18n="nav.contact">Contact</a>
+        </div>
+    </div>
+
+    <main>
+        <!-- HERO -->
+        <section class="page-hero">
+            <h1 data-i18n="projets.title">Mes Projets</h1>
+            <p class="subtitle" data-i18n="projets.subtitle">Recherche, création visuelle, développement web et animation — découvrez mes réalisations.</p>
+            <div class="hero-accent-line"></div>
+        </section>
+
+        <!-- CATEGORY TABS -->
+        <div class="category-tabs" id="category-tabs">
+            <button class="cat-tab active" data-cat="research">
+                📚 <span data-i18n="projets.tab.research">Recherche</span> <span class="cat-count">5</span>
+            </button>
+            <button class="cat-tab" data-cat="visual">
+                🎨 <span data-i18n="projets.tab.visual">Projets Visuels</span> <span class="cat-count">4</span>
+            </button>
+            <button class="cat-tab" data-cat="web">
+                💻 <span data-i18n="projets.tab.web">Web / Coding</span> <span class="cat-count">8</span>
+            </button>
+            <button class="cat-tab" data-cat="animation">
+                🧩 <span data-i18n="projets.tab.animation">Animation / Facilitation</span> <span class="cat-count">7</span>
+            </button>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- CATEGORY: RECHERCHE                       -->
+        <!-- ========================================== -->
+        <div class="cat-section active" id="cat-research">
+            <div class="cat-header">
+                <div class="cat-title">
+                    <span>📚</span> <span data-i18n="projets.research.title">Travaux de Recherche</span>
+                </div>
+                <p class="cat-desc" data-i18n="projets.research.desc">Mémoires, analyses géopolitiques et travaux académiques réalisés durant mon parcours en relations internationales.</p>
+            </div>
+            <div class="projects-grid">
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge" data-i18n="projets.r3.date">2024</span>
+                    </div>
+                    <h3 data-i18n="projets.r3.title">Analyse des enjeux de l'Intelligence Artificielle en Chine</h3>
+                    <div class="org" data-i18n="projets.r3.org">Institut d'Études Politiques</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-design">🌍 Géopolitique</span>
+                        <span class="tag-chip tag-workshop">🤖 IA</span>
+                        <span class="tag-chip tag-event">🎓 Académique</span>
+                    </div>
+                    <p data-i18n="projets.r3.desc">Ce travail examine comment la Chine utilise l'intelligence artificielle comme un levier de puissance totale. L'étude montre que l'IA est au cœur de la stratégie économique chinoise, de sa modernisation militaire et de son modèle de contrôle social. Le rapport analyse également les réactions des puissances concurrentes (USA et Europe).</p>
+                    <a href="Projets/China's Political and Technological Stakes Through Artificial Intelligence.pdf" target="_blank" class="expand-btn" style="text-decoration: none;">
+                        📄 <span data-i18n="projets.download">Lire le rapport (PDF)</span> <span class="expand-icon">↗</span>
+                    </a>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge" data-i18n="projets.r4.date">2024</span>
+                    </div>
+                    <h3 data-i18n="projets.r4.title">Étude sur l'internationalisation de l'histoire globale au Japon</h3>
+                    <div class="org" data-i18n="projets.r4.org">Institut d'Études Politiques</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-design">🌍 Histoire Globale</span>
+                        <span class="tag-chip tag-photo">🇯🇵 Japon</span>
+                        <span class="tag-chip tag-event">🎓 Académique</span>
+                    </div>
+                    <p data-i18n="projets.r4.desc">Ce projet explore comment le concept d'« histoire globale » a été adapté au contexte académique japonais. L'étude met en lumière des approches innovantes comme la Kaiiki-shi (histoire maritime), qui propose une vision du monde centrée sur les échanges maritimes plutôt que sur une narration purement occidentale ou centrée sur les États-nations.</p>
+                    <a href="Projets/DIDIER_Nicolas_LitRev (1).pdf" target="_blank" class="expand-btn" style="text-decoration: none;">
+                        📄 <span data-i18n="projets.download">Lire le rapport (PDF)</span> <span class="expand-icon">↗</span>
+                    </a>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge" data-i18n="projets.r5.date">2024</span>
+                    </div>
+                    <h3 data-i18n="projets.r5.title">Système de redistribution dans les monarchies du Golfe</h3>
+                    <div class="org" data-i18n="projets.r5.org">Institut d'Études Politiques</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-design">🌍 Économie Politique</span>
+                        <span class="tag-chip tag-design">🐫 Moyen-Orient</span>
+                        <span class="tag-chip tag-event">🎓 Académique</span>
+                    </div>
+                    <p data-i18n="projets.r5.desc">Cette analyse porte sur la manière dont les pays riches en pétrole (comme l'Arabie Saoudite ou le Qatar) gèrent et redistribuent leur richesse. Le projet retrace l'évolution de ces mécanismes depuis les crises pétrolières de 1973 et examine les défis actuels, notamment la gestion d'un marché du travail divisé entre citoyens nationaux et travailleurs expatriés.</p>
+                    <a href="Projets/Case study of redistribution system in Gulf monarchies.pdf" target="_blank" class="expand-btn" style="text-decoration: none;">
+                        📄 <span data-i18n="projets.download">Lire le rapport (PDF)</span> <span class="expand-icon">↗</span>
+                    </a>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge" data-i18n="projets.r6.date">2025</span>
+                    </div>
+                    <h3 data-i18n="projets.r6.title">Mémoire de Master — Présence française et réseaux en Asie du Sud-Est</h3>
+                    <div class="org" data-i18n="projets.r6.org">Institut d'Études Politiques</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-design">🌏 Asie du Sud-Est</span>
+                        <span class="tag-chip tag-design">🤝 Relations Internationales</span>
+                        <span class="tag-chip tag-event">🎓 Académique</span>
+                    </div>
+                    <p data-i18n="projets.r6.desc">Ce travail de recherche approfondi explore comment la présence française (réseaux d'affaires, diplomatiques, éducatifs et culturels) participe au développement ou à la transformation des réseaux entre la France et les pays d'Asie du Sud-Est.</p>
+                    <a href="Projets/Sujet (3).pdf" target="_blank" class="expand-btn" style="text-decoration: none;">
+                        📄 <span data-i18n="projets.download">Lire le rapport (PDF)</span> <span class="expand-icon">↗</span>
+                    </a>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge" data-i18n="projets.r7.date">2024</span>
+                    </div>
+                    <h3 data-i18n="projets.r7.title">La cérémonie de la frontière d'Attari-Wagah et les relations indo-pakistanaises</h3>
+                    <div class="org" data-i18n="projets.r7.org">Institut d'Études Politiques</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-design">🇮🇳 Inde / 🇵🇰 Pakistan</span>
+                        <span class="tag-chip tag-design">🤝 Relations Internationales</span>
+                        <span class="tag-chip tag-event">🎓 Académique</span>
+                    </div>
+                    <p data-i18n="projets.r7.desc">Ce mémoire étudie la relation paradoxale entre l'Inde et le Pakistan à travers la cérémonie militaire quotidienne de la frontière d'Attari-Wagah. Entre chorégraphies agressives et coopération logistique parfaite, ce rituel devient une métaphore des tensions géopolitiques, des rivalités religieuses et de l'héritage traumatique de la Partition de 1947.</p>
+                    <a href="Projets/How does the Attari-Wagah border ceremony, and the surrounding discourse, reflect the complex and often contradictory nature of modern Indo-Pakistani relations .pdf" target="_blank" class="expand-btn" style="text-decoration: none;">
+                        📄 <span data-i18n="projets.download">Lire le rapport (PDF)</span> <span class="expand-icon">↗</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- CATEGORY: PROJETS VISUELS                 -->
+        <!-- ========================================== -->
+        <div class="cat-section" id="cat-visual">
+            <div class="cat-header">
+                <div class="cat-title">
+                    <span>🎨</span> <span data-i18n="projets.visual.title">Projets Visuels</span>
+                </div>
+                <p class="cat-desc" data-i18n="projets.visual.desc">Communication visuelle, gestion de réseaux sociaux, photographie événementielle et création de contenus.</p>
+            </div>
+            <div class="projects-grid">
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">Nov. 2024 — Jan. 2025</span>
+                    </div>
+                    <h3>70th Anniversary Coverage</h3>
+                    <div class="org">AFS Japan</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-photo">📸 Photographie</span>
+                        <span class="tag-chip tag-social">📱 Réseaux sociaux</span>
+                    </div>
+                    <p>Photographie et contenus visuels pour l'événement du 70ème anniversaire d'AFS Japon. Travail présenté sur le site officiel et les réseaux sociaux.</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">
+                        <span data-i18n="projets.details">Détails</span> <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="expand-details">
+                        <ul>
+                            <li>Couverture photo et vidéo de l'événement</li>
+                            <li>Post-production et édition des contenus visuels</li>
+                            <li>Publication sur le site officiel d'AFS Japon</li>
+                        </ul>
+                    </div>
+                    <a href="https://www.afs.or.jp/70th-anniversary/" target="_blank" class="expand-btn" style="text-decoration: none; margin-top: 1rem;">
+                        🌐 <span data-i18n="projets.website">Voir le site officiel</span> <span class="expand-icon">↗</span>
+                    </a>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">Jan. 2024 — Sep. 2024</span>
+                    </div>
+                    <h3>Chargé de communication</h3>
+                    <div class="org">AFS France</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-design">🎨 Design</span>
+                        <span class="tag-chip tag-social">📱 Réseaux sociaux</span>
+                    </div>
+                    <p>Direction de la refonte des stratégies de communication externe selon la charte graphique d'AFS International. Création de nouveaux supports médiatiques.</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">
+                        <span data-i18n="projets.details">Détails</span> <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="expand-details">
+                        <ul>
+                            <li>Refonte de la stratégie de communication selon la charte AFS International</li>
+                            <li>Création de supports médiatiques pour optimiser l'engagement</li>
+                            <li>Gestion des campagnes sur les réseaux sociaux</li>
+                        </ul>
+                    </div>
+                    <a href="https://www.instagram.com/afs_france/" target="_blank" class="expand-btn" style="text-decoration: none; margin-top: 1rem;">
+                        📱 <span data-i18n="projets.instagram">Voir sur Instagram</span> <span class="expand-icon">↗</span>
+                    </a>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">Projets récents</span>
+                    </div>
+                    <h3>Couverture : Asia Kakehashi Project</h3>
+                    <div class="org">Échange culturel Asie-Japon</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-photo">📸 Photographie</span>
+                        <span class="tag-chip tag-event">🎉 Événementiel</span>
+                    </div>
+                    <p>Capture des moments clés des événements d'échange culturel Asia Kakehashi. Contenu visuel de qualité pour la promotion sur les réseaux sociaux.</p>
+                    <a href="https://www.instagram.com/p/DDotmlGy8_V/?img_index=1" target="_blank" class="expand-btn" style="text-decoration: none;">
+                        📱 <span data-i18n="projets.instagram">Voir sur Instagram</span> <span class="expand-icon">↗</span>
+                    </a>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">2026</span>
+                    </div>
+                    <h3 data-i18n="projets.v1.title">Communication & Création Visuelle</h3>
+                    <div class="org" data-i18n="projets.v1.org">Institut français de Lituanie</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-design">🎨 Design</span>
+                        <span class="tag-chip tag-social">📱 Réseaux sociaux</span>
+                    </div>
+                    <p data-i18n="projets.v1.desc">Conception graphique et création de contenus visuels de communication pour les réseaux sociaux et les événements de l'Institut français de Lituanie.</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">
+                        <span data-i18n="projets.details">Détails</span> <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="expand-details">
+                        <ul>
+                            <li data-i18n="projets.v1.detail1">Visuels sur les réseaux sociaux autour de l'exposition « Écrire en Français ».</li>
+                            <li data-i18n="projets.v1.detail2">Visuels sur les réseaux sociaux autour des ateliers « Jeux de Société ».</li>
+                            <li data-i18n="projets.v1.detail3">Éléments visuels pour la promotion de la « Semaine du Cinéma Francophone ».</li>
+                        </ul>
+                    </div>
+                    <div style="display: flex; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap;">
+                        <a href="https://www.institutfrancais-lituanie.com/fr/en-cours/expositions/exposition-ecrire-en-francais/" target="_blank" class="expand-btn" style="text-decoration: none; margin-top: 0; display: inline-flex; align-items: center; gap: 4px;">
+                            🎨 <span data-i18n="projets.v1.link1">Expo « Écrire en Français »</span> <span class="expand-icon">↗</span>
+                        </a>
+                        <a href="https://www.institutfrancais-lituanie.com/fr/en-cours/soiree-jeux-de-societe/" target="_blank" class="expand-btn" style="text-decoration: none; margin-top: 0; display: inline-flex; align-items: center; gap: 4px;">
+                            🎲 <span data-i18n="projets.v1.link2">Soirées Jeux de Société</span> <span class="expand-icon">↗</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- CATEGORY: WEB / CODING                    -->
+        <!-- ========================================== -->
+        <div class="cat-section" id="cat-web">
+            <div class="cat-header">
+                <div class="cat-title">
+                    <span>💻</span> <span data-i18n="projets.web.title">Projets Web / Coding</span>
+                </div>
+                <p class="cat-desc" data-i18n="projets.web.desc">Développement de sites web, applications et outils numériques.</p>
+            </div>
+            <div class="projects-grid">
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">2024 — Présent</span>
+                    </div>
+                    <h3 data-i18n="projets.w1.title">Portfolio Personnel</h3>
+                    <div class="org" data-i18n="projets.w1.org">Projet personnel</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-design">🌐 HTML/CSS/JS</span>
+                        <span class="tag-chip tag-social">🔥 Firebase</span>
+                    </div>
+                    <p data-i18n="projets.w1.desc">Conception et développement de ce site portfolio avec un design premium dark theme, gestion de photos via Firebase et support bilingue FR/EN.</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">
+                        <span data-i18n="projets.details">Détails</span> <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="expand-details">
+                        <ul>
+                            <li>Design responsive avec glassmorphisme et micro-animations</li>
+                            <li>Galerie photo dynamique avec Firebase Realtime Database</li>
+                            <li>Système d'internationalisation FR/EN</li>
+                            <li>Interface d'administration pour gérer les photos</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">2024</span>
+                    </div>
+                    <h3 data-i18n="projets.w2.title">Plateforme Indopacifique</h3>
+                    <div class="org" data-i18n="projets.w2.org">Projet académique</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-design">🌐 Web</span>
+                        <span class="tag-chip tag-event">🎓 Académique</span>
+                    </div>
+                    <p data-i18n="projets.w2.desc">Développement d'un portail web éducatif sur la zone indopacifique — dossiers pays, données interactives, glossaire géopolitique et modules de formation.</p>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">2026</span>
+                    </div>
+                    <h3 data-i18n="projets.w3.title">Apprentissage du Lituanien</h3>
+                    <div class="org" data-i18n="projets.w3.org">Projet personnel</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-design">🌐 Web App</span>
+                        <span class="tag-chip tag-workshop">🇱🇹 Lituanien</span>
+                        <span class="tag-chip tag-event">📚 Éducation</span>
+                    </div>
+                    <p data-i18n="projets.w3.desc">Description...</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">
+                        <span data-i18n="projets.details">Détails</span> <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="expand-details">
+                        <ul>
+                            <li data-i18n="projets.w3.detail1">Détail 1</li>
+                            <li data-i18n="projets.w3.detail2">Détail 2</li>
+                            <li data-i18n="projets.w3.detail3">Détail 3</li>
+                        </ul>
+                    </div>
+                    <div style="display: flex; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap;">
+                        <a href="https://github.com/nicoddr/Lituanien" target="_blank" class="expand-btn" style="text-decoration: none; margin-top: 0; display: inline-flex; align-items: center; gap: 4px;">
+                            🐙 <span data-i18n="projets.github">Voir sur GitHub</span> <span class="expand-icon">↗</span>
+                        </a>
+                        <a href="https://nicoddr.github.io/Lituanien/" target="_blank" class="expand-btn" style="text-decoration: none; margin-top: 0; display: inline-flex; align-items: center; gap: 4px;">
+                            🌐 <span data-i18n="projets.website">Voir le site officiel</span> <span class="expand-icon">↗</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">2026</span>
+                    </div>
+                    <h3 data-i18n="projets.w4.title">Préparation aux Concours du MEAE — Zone Indopacifique</h3>
+                    <div class="org" data-i18n="projets.w4.org">Projet personnel</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-design">🌐 Web</span>
+                        <span class="tag-chip tag-design">🌍 Géopolitique</span>
+                        <span class="tag-chip tag-event">🎓 Concours</span>
+                    </div>
+                    <p data-i18n="projets.w4.desc">Description...</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">
+                        <span data-i18n="projets.details">Détails</span> <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="expand-details">
+                        <ul>
+                            <li data-i18n="projets.w4.detail1">Détail 1</li>
+                            <li data-i18n="projets.w4.detail2">Détail 2</li>
+                            <li data-i18n="projets.w4.detail3">Détail 3</li>
+                        </ul>
+                    </div>
+                    <div style="display: flex; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap;">
+                        <a href="https://github.com/nicoddr/concours" target="_blank" class="expand-btn" style="text-decoration: none; margin-top: 0; display: inline-flex; align-items: center; gap: 4px;">
+                            🐙 <span data-i18n="projets.github">Voir sur GitHub</span> <span class="expand-icon">↗</span>
+                        </a>
+                        <a href="https://nicoddr.github.io/concours/" target="_blank" class="expand-btn" style="text-decoration: none; margin-top: 0; display: inline-flex; align-items: center; gap: 4px;">
+                            🌐 <span data-i18n="projets.website">Voir le site officiel</span> <span class="expand-icon">↗</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">2025</span>
+                    </div>
+                    <h3 data-i18n="projets.w5.title">N1 Benkyo Hub — Application d'étude JLPT N1</h3>
+                    <div class="org" data-i18n="projets.w5.org">Projet personnel</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-design">📱 Mobile Web</span>
+                        <span class="tag-chip tag-photo">🇯🇵 Japonais</span>
+                        <span class="tag-chip tag-event">🎓 JLPT N1</span>
+                    </div>
+                    <p data-i18n="projets.w5.desc">Description...</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">
+                        <span data-i18n="projets.details">Détails</span> <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="expand-details">
+                        <ul>
+                            <li data-i18n="projets.w5.detail1">Détail 1</li>
+                            <li data-i18n="projets.w5.detail2">Détail 2</li>
+                            <li data-i18n="projets.w5.detail3">Détail 3</li>
+                            <li data-i18n="projets.w5.detail4">Détail 4</li>
+                        </ul>
+                    </div>
+                    <div style="display: flex; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap;">
+                        <a href="https://github.com/nicoddr/N1-App" target="_blank" class="expand-btn" style="text-decoration: none; margin-top: 0; display: inline-flex; align-items: center; gap: 4px;">
+                            🐙 <span data-i18n="projets.github">Voir sur GitHub</span> <span class="expand-icon">↗</span>
+                        </a>
+                        <a href="https://nicoddr.github.io/N1-App/" target="_blank" class="expand-btn" style="text-decoration: none; margin-top: 0; display: inline-flex; align-items: center; gap: 4px;">
+                            🌐 <span data-i18n="projets.website">Voir le site officiel</span> <span class="expand-icon">↗</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">2026</span>
+                    </div>
+                    <h3 data-i18n="projets.w6.title">Magiška Abėcėlė — Alphabet Français pour Lituaniens</h3>
+                    <div class="org" data-i18n="projets.w6.org">Institut français de Lituanie</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-design">🌐 Web App</span>
+                        <span class="tag-chip tag-design">🇫🇷 Français</span>
+                        <span class="tag-chip tag-workshop">🇱🇹 Lituanie</span>
+                    </div>
+                    <p data-i18n="projets.w6.desc">Description...</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">
+                        <span data-i18n="projets.details">Détails</span> <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="expand-details">
+                        <ul>
+                            <li data-i18n="projets.w6.detail1">Détail 1</li>
+                            <li data-i18n="projets.w6.detail2">Détail 2</li>
+                            <li data-i18n="projets.w6.detail3">Détail 3</li>
+                        </ul>
+                    </div>
+                    <div style="display: flex; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap;">
+                        <a href="https://github.com/nicoddr/AlphabetFR" target="_blank" class="expand-btn" style="text-decoration: none; margin-top: 0; display: inline-flex; align-items: center; gap: 4px;">
+                            🐙 <span data-i18n="projets.github">Voir sur GitHub</span> <span class="expand-icon">↗</span>
+                        </a>
+                        <a href="https://nicoddr.github.io/AlphabetFR/" target="_blank" class="expand-btn" style="text-decoration: none; margin-top: 0; display: inline-flex; align-items: center; gap: 4px;">
+                            🌐 <span data-i18n="projets.website">Voir le site officiel</span> <span class="expand-icon">↗</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">2026</span>
+                    </div>
+                    <h3 data-i18n="projets.w7.title">Échanges Scolaires France-Lituanie</h3>
+                    <div class="org" data-i18n="projets.w7.org">Institut français de Lituanie</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-design">🌐 Web</span>
+                        <span class="tag-chip tag-event">🏫 Scolaire</span>
+                        <span class="tag-chip tag-design">🤝 Échanges</span>
+                    </div>
+                    <p data-i18n="projets.w7.desc">Description...</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">
+                        <span data-i18n="projets.details">Détails</span> <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="expand-details">
+                        <ul>
+                            <li data-i18n="projets.w7.detail1">Détail 1</li>
+                            <li data-i18n="projets.w7.detail2">Détail 2</li>
+                            <li data-i18n="projets.w7.detail3">Détail 3</li>
+                        </ul>
+                    </div>
+                    <div style="display: flex; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap;">
+                        <a href="https://github.com/nicoddr/TestFRLTWeb" target="_blank" class="expand-btn" style="text-decoration: none; margin-top: 0; display: inline-flex; align-items: center; gap: 4px;">
+                            🐙 <span data-i18n="projets.github">Voir sur GitHub</span> <span class="expand-icon">↗</span>
+                        </a>
+                        <a href="https://nicoddr.github.io/TestFRLTWeb/" target="_blank" class="expand-btn" style="text-decoration: none; margin-top: 0; display: inline-flex; align-items: center; gap: 4px;">
+                            🌐 <span data-i18n="projets.website">Voir le site officiel</span> <span class="expand-icon">↗</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">2026</span>
+                    </div>
+                    <h3 data-i18n="projets.w8.title">Créateur de Cartes Time's Up Français-Lituanien</h3>
+                    <div class="org" data-i18n="projets.w8.org">Institut français de Lituanie</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-design">🌐 Web Tool</span>
+                        <span class="tag-chip tag-workshop">🎮 Jeu</span>
+                        <span class="tag-chip tag-event">🗣️ Bilingue</span>
+                    </div>
+                    <p data-i18n="projets.w8.desc">Description...</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">
+                        <span data-i18n="projets.details">Détails</span> <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="expand-details">
+                        <ul>
+                            <li data-i18n="projets.w8.detail1">Détail 1</li>
+                            <li data-i18n="projets.w8.detail2">Détail 2</li>
+                            <li data-i18n="projets.w8.detail3">Détail 3</li>
+                        </ul>
+                    </div>
+                    <div style="display: flex; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap;">
+                        <a href="https://github.com/nicoddr/Time-s-Up-IF" target="_blank" class="expand-btn" style="text-decoration: none; margin-top: 0; display: inline-flex; align-items: center; gap: 4px;">
+                            🐙 <span data-i18n="projets.github">Voir sur GitHub</span> <span class="expand-icon">↗</span>
+                        </a>
+                        <a href="https://nicoddr.github.io/Time-s-Up-IF/" target="_blank" class="expand-btn" style="text-decoration: none; margin-top: 0; display: inline-flex; align-items: center; gap: 4px;">
+                            🌐 <span data-i18n="projets.website">Voir le site officiel</span> <span class="expand-icon">↗</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- CATEGORY: ANIMATION / FACILITATION        -->
+        <!-- ========================================== -->
+        <div class="cat-section" id="cat-animation">
+            <div class="cat-header">
+                <div class="cat-title">
+                    <span>🧩</span> <span data-i18n="projets.anim.title">Animation & Facilitation</span>
+                </div>
+                <p class="cat-desc" data-i18n="projets.anim.desc">Ateliers interactifs, facilitation de débats et animation culturelle.</p>
+            </div>
+            <div class="projects-grid">
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">2024</span>
+                    </div>
+                    <h3 data-i18n="projets.a1.title">Facilitation de la Fresque du Climat</h3>
+                    <div class="org" data-i18n="projets.a1.org">Engagement Citoyen & Environnemental</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-workshop">🧩 Atelier</span>
+                        <span class="tag-chip tag-design">🌍 Climat</span>
+                    </div>
+                    <p data-i18n="projets.a1.desc">Animation d'ateliers d'intelligence collective pour sensibiliser les participants au dérèglement climatique, à ses causes et à ses conséquences systémiques.</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">
+                        <span data-i18n="projets.details">Détails</span> <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="expand-details">
+                        <ul>
+                            <li data-i18n="projets.a1.detail1">Animation de sessions interactives et collaboratives basées sur les rapports du GIEC.</li>
+                            <li data-i18n="projets.a1.detail2">Facilitation de débats constructifs sur les actions individuelles et collectives à mener.</li>
+                            <li data-i18n="projets.a1.detail3">Adaptation du discours pour des publics variés d'étudiants et de citoyens.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">2024</span>
+                    </div>
+                    <h3 data-i18n="projets.a5.title">Convention Citoyenne Étudiante (CCE)</h3>
+                    <div class="org" data-i18n="projets.a5.org">IEP de Fontainebleau / UPEC</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-event">🎉 Facilitation</span>
+                        <span class="tag-chip tag-social">🏛️ Citoyenneté</span>
+                    </div>
+                    <p data-i18n="projets.a5.desc">Facilitation de tables rondes et d'ateliers de co-construction citoyenne dans le cadre de la Convention Citoyenne Étudiante de l'UPEC à l'IEP de Fontainebleau.</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">
+                        <span data-i18n="projets.details">Détails</span> <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="expand-details">
+                        <ul>
+                            <li data-i18n="projets.a5.detail1">Animation de débats de groupes sur des propositions de politiques publiques et de transition écologique.</li>
+                            <li data-i18n="projets.a5.detail2">Accompagnement des étudiants dans la rédaction de recommandations officielles.</li>
+                            <li data-i18n="projets.a5.detail3">Familiarisation avec les techniques de démocratie participative et de délibération collective.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">2025</span>
+                    </div>
+                    <h3 data-i18n="projets.a6.title">Ateliers ODD & Solidarité Internationale</h3>
+                    <div class="org" data-i18n="projets.a6.org">La DCC (ONG)</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-workshop">🧩 Atelier</span>
+                        <span class="tag-chip tag-design">🌱 ODD</span>
+                    </div>
+                    <p data-i18n="projets.a6.desc">Animation d'ateliers interactifs sur les Objectifs de Développement Durable (ODD) et la solidarité internationale lors de mon stage à la DCC.</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">
+                        <span data-i18n="projets.details">Détails</span> <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="expand-details">
+                        <ul>
+                            <li data-i18n="projets.a6.detail1">Conception et animation d'ateliers de sensibilisation aux ODD et à l'interculturalité.</li>
+                            <li data-i18n="projets.a6.detail2">Accompagnement et formation des futurs volontaires sur les enjeux de solidarité internationale.</li>
+                            <li data-i18n="projets.a6.detail3">Sessions menées de manière bilingue en français et en anglais.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">2019 — 2025</span>
+                    </div>
+                    <h3 data-i18n="projets.a7.title">Ateliers Interculturels & d'Intégration</h3>
+                    <div class="org" data-i18n="projets.a7.org">AFS Intercultural Programs</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-event">🤝 Interculturel</span>
+                        <span class="tag-chip tag-social">✈️ AFS</span>
+                    </div>
+                    <p data-i18n="projets.a7.desc">Animation de nombreux ateliers d'apprentissage et d'interculturalité destinés aux élèves en échange scolaire international.</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">
+                        <span data-i18n="projets.details">Détails</span> <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="expand-details">
+                        <ul>
+                            <li data-i18n="projets.a7.detail1">Préparation et animation de sessions d'orientation et de débriefing culturel.</li>
+                            <li data-i18n="projets.a7.detail2">Accompagnement à l'intégration des jeunes et gestion des situations de choc culturel.</li>
+                            <li data-i18n="projets.a7.detail3">Animations menées en français, anglais et observation/aide en japonais.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">2023 — 2024</span>
+                    </div>
+                    <h3 data-i18n="projets.a2.title">Communication & Événementiel</h3>
+                    <div class="org" data-i18n="projets.a2.org">Université Bordeaux Montaigne (Association LEA)</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-event">🎉 Événementiel</span>
+                        <span class="tag-chip tag-social">📱 Réseaux sociaux</span>
+                    </div>
+                    <p data-i18n="projets.a2.desc">Gestion de l'ensemble de la communication de l'association étudiante LEA afin d'améliorer l'engagement étudiant et de promouvoir les événements culturels.</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">
+                        <span data-i18n="projets.details">Détails</span> <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="expand-details">
+                        <ul>
+                            <li data-i18n="projets.a2.detail1">Organisation d'événements culturels, de conférences et de rencontres associatives.</li>
+                            <li data-i18n="projets.a2.detail2">Création de visuels et promotion active sur les différents réseaux sociaux.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">2026</span>
+                    </div>
+                    <h3 data-i18n="projets.a3.title">Soirées Jeux de Société</h3>
+                    <div class="org" data-i18n="projets.a3.org">Institut français de Lituanie</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-workshop">🧩 Atelier</span>
+                        <span class="tag-chip tag-event">🎲 Jeux</span>
+                    </div>
+                    <p data-i18n="projets.a3.desc">Animation de plusieurs ateliers de jeux de société à l'Institut français de Lituanie, favorisant l'apprentissage ludique et les échanges conviviaux en français.</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">
+                        <span data-i18n="projets.details">Détails</span> <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="expand-details">
+                        <ul>
+                            <li data-i18n="projets.a3.detail1">Sélection et présentation de jeux de société adaptés aux apprenants de français.</li>
+                            <li data-i18n="projets.a3.detail2">Explication des règles et facilitation des conversations en français.</li>
+                            <li data-i18n="projets.a3.detail3">Création d'un espace d'échange interculturel et convivial.</li>
+                        </ul>
+                    </div>
+                    <div style="display: flex; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap;">
+                        <a href="https://www.institutfrancais-lituanie.com/fr/en-cours/soiree-jeux-de-societe/" target="_blank" class="expand-btn" style="text-decoration: none; margin-top: 0; display: inline-flex; align-items: center; gap: 4px;">
+                            🌐 <span data-i18n="projets.website">Voir le site officiel</span> <span class="expand-icon">↗</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card" data-spotlight>
+                    <div class="card-spotlight"></div>
+                    <div class="card-top">
+                        <span class="date-badge">2026</span>
+                    </div>
+                    <h3 data-i18n="projets.a4.title">Sensibilisation & Promotion du Français</h3>
+                    <div class="org" data-i18n="projets.a4.org">Établissements scolaires de Lituanie</div>
+                    <div class="tags-row">
+                        <span class="tag-chip tag-workshop">🏫 Scolaire</span>
+                        <span class="tag-chip tag-event">📚 Éducation</span>
+                    </div>
+                    <p data-i18n="projets.a4.desc">Introduction à la culture et à la langue française auprès d'élèves de 5ème année (CM1/CM2) dans plusieurs établissements lituaniens, avec pour objectif de susciter leur intérêt à choisir le français en LV2.</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">
+                        <span data-i18n="projets.details">Détails</span> <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="expand-details">
+                        <ul>
+                            <li data-i18n="projets.a4.detail1">Création d'ateliers ludiques et interactifs d'initiation linguistique.</li>
+                            <li data-i18n="projets.a4.detail2">Présentation dynamique de la culture française et de ses traditions.</li>
+                            <li data-i18n="projets.a4.detail3">Sensibilisation active pour inciter au choix du français comme deuxième langue (LV2).</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3 data-i18n="footer.contact">Contact</h3>
+                <p>
+                    <a href="mailto:nicolas.didier2001@gmail.com" class="email-link">
+                        📧 <span data-i18n="footer.email">Me contacter</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="footer.social">Réseaux Sociaux</h3>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/nicolas-didier-france/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/nicolas.ddr.photos/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Nicolas Didier.</p>
+        </div>
+    </footer>
+
+    <script src="js/lang.js"></script>
+    <script>
+        // === HAMBURGER MENU ===
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobile-nav');
+        if (hamburger && mobileNav) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                mobileNav.classList.toggle('active');
+                document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+            });
+            mobileNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+        }
+
+        // === NAVBAR SCROLL ===
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // === CATEGORY TABS ===
+        const catTabs = document.querySelectorAll('.cat-tab');
+        const catSections = document.querySelectorAll('.cat-section');
+
+        catTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.getAttribute('data-cat');
+
+                catTabs.forEach(t => t.classList.remove('active'));
+                catSections.forEach(s => s.classList.remove('active'));
+
+                tab.classList.add('active');
+                const section = document.getElementById('cat-' + target);
+                if (section) {
+                    section.classList.add('active');
+                    // Re-trigger card animations
+                    section.querySelectorAll('.project-card').forEach((card, i) => {
+                        card.style.animation = 'none';
+                        card.offsetHeight; // Force reflow
+                        card.style.animation = `cardSlideIn 0.5s var(--ease-out) ${i * 0.05}s forwards`;
+                    });
+                }
+            });
+        });
+
+        // === EXPAND TOGGLE ===
+        function toggleExpand(btn) {
+            const details = btn.nextElementSibling;
+            details.classList.toggle('open');
+            btn.classList.toggle('open');
+        }
+
+        // === MOUSE SPOTLIGHT ===
+        document.querySelectorAll('[data-spotlight]').forEach(card => {
+            const spotlight = card.querySelector('.card-spotlight');
+            if (!spotlight) return;
+
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                spotlight.style.left = (e.clientX - rect.left) + 'px';
+                spotlight.style.top = (e.clientY - rect.top) + 'px';
+            });
+        });
+    </script>
+</body>
+
+</html>

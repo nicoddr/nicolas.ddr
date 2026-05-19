@@ -257,6 +257,35 @@ img {
     transition: opacity 0.3s ease;
 }
 
+.nav-logo a.logo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: none;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: initial;
+    background-clip: initial;
+    color: inherit;
+    text-decoration: none;
+}
+
+.nav-logo a.logo-link .logo-icon {
+    width: 28px;
+    height: 28px;
+    display: block;
+    flex-shrink: 0;
+}
+
+.nav-logo a.logo-link .logo-text {
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.5px;
+}
+
 .nav-logo a:hover {
     opacity: 0.8;
 }

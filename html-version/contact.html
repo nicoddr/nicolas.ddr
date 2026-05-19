@@ -7,6 +7,7 @@
     <title>Contact - Nicolas Didier</title>
     <meta name="description" content="Contactez Nicolas Didier — email, LinkedIn, Instagram. Disponible pour collaborations et projets.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
     <link rel="stylesheet" href="css/style.css">
     <style>
         /* === CONTACT PAGE === */
@@ -258,11 +259,26 @@
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container container">
-            <div class="nav-logo"><a href="../index.html">N. Didier</a></div>
+            <div class="nav-logo">
+                <a href="../index.html" class="logo-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="logo-icon">
+                        <defs>
+                            <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="var(--primary)" />
+                                <stop offset="50%" stop-color="var(--secondary)" />
+                                <stop offset="100%" stop-color="var(--accent)" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M 12 30 L 12 10 L 24 30 L 24 10" stroke="url(#logo-grad)" />
+                        <path d="M 24 10 C 33 10, 37 15, 37 20 C 37 25, 33 30, 24 30" stroke="url(#logo-grad)" />
+                    </svg>
+                    <span class="logo-text">N. Didier</span>
+                </a>
+            </div>
             <ul class="nav-links">
                 <li><a href="../index.html" data-i18n="nav.home">Page d'accueil</a></li>
                 <li><a href="photos.html" data-i18n="nav.photos">Projets photos</a></li>
-                <li><a href="animation.html" data-i18n="nav.animation">Animation</a></li>
+                <li><a href="projets.html" data-i18n="nav.projets">Projets</a></li>
                 <li><a href="parcours.html" data-i18n="nav.parcours">Parcours</a></li>
                 <li><a href="contact.html" data-i18n="nav.contact" class="active">Contact</a></li>
             </ul>
@@ -277,7 +293,7 @@
         <div class="mobile-nav-links">
             <a href="../index.html" data-i18n="nav.home">Page d'accueil</a>
             <a href="photos.html" data-i18n="nav.photos">Projets photos</a>
-            <a href="animation.html" data-i18n="nav.animation">Animation</a>
+            <a href="projets.html" data-i18n="nav.projets">Projets</a>
             <a href="parcours.html" data-i18n="nav.parcours">Parcours</a>
             <a href="contact.html" data-i18n="nav.contact" class="active">Contact</a>
         </div>
@@ -306,14 +322,24 @@
 
                 <a href="https://www.linkedin.com/in/nicolas-didier-france/" target="_blank" rel="noopener noreferrer"
                     class="contact-card" id="contact-linkedin">
-                    <span class="card-icon">💼</span>
+                    <span class="card-icon" style="color: #0077b5; display: inline-flex; align-items: center; justify-content: center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="36" height="36">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </span>
                     <h3>LinkedIn</h3>
                     <p data-i18n="contact.linkedin_desc">Mon profil professionnel</p>
                 </a>
 
                 <a href="https://www.instagram.com/nicolas.ddr.photos/" target="_blank" rel="noopener noreferrer"
                     class="contact-card" id="contact-instagram">
-                    <span class="card-icon">📸</span>
+                    <span class="card-icon" style="color: #e1306c; display: inline-flex; align-items: center; justify-content: center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="36" height="36">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </span>
                     <h3>Instagram</h3>
                     <p>nicolas.ddr.photos</p>
                 </a>
@@ -349,8 +375,18 @@
             <div class="footer-section">
                 <h3 data-i18n="footer.social">Réseaux Sociaux</h3>
                 <div class="social-links">
-                    <a href="https://www.linkedin.com/in/nicolas-didier-france/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">in</a>
-                    <a href="https://www.instagram.com/nicolas.ddr.photos/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📷</a>
+                    <a href="https://www.linkedin.com/in/nicolas-didier-france/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/nicolas.ddr.photos/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
